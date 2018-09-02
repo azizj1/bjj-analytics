@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": false,
+        "alwaysStrict": true,
+        "baseUrl": ".",
+        "importHelpers": true,
+        "jsx": "preserve",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "paths": {
+            "~/*": [ "./src/*" ]
+        },
+        "sourceMap": true,
+        "strictNullChecks": false,
+        "target": "es6",
+        "lib":  ["dom", "es6", "dom.iterable", "scripthost", "es2017"],
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    }
+}
