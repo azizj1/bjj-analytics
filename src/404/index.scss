@@ -69,7 +69,7 @@
         position: relative;
         top: 8%;
         color: white;
-        background: #07B3F9;
+        background: #07b3f9;
         border-radius: 50%;
         display: inline-block;
         transform: skew(45deg);
@@ -129,7 +129,8 @@
         width: 80px;
     }
 
-    .error .clip:nth-of-type(1) .shadow, .error .clip:nth-of-type(3) .shadow {
+    .error .clip:nth-of-type(1) .shadow,
+    .error .clip:nth-of-type(3) .shadow {
         width: 100px;
     }
 
