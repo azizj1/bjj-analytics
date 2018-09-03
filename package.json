@@ -21,6 +21,8 @@
   "homepage": "https://github.com/azizj1/bjj-analytics#readme",
   "dependencies": {
     "classnames": "^2.2.6",
+    "highcharts": "^6.1.2",
+    "highcharts-react-official": "^1.4.0",
     "lodash": "^4.17.10",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -37,7 +39,9 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
     "@types/classnames": "^2.2.6",
+    "@types/highcharts": "^5.0.27",
     "@types/lodash": "^4.14.116",
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",

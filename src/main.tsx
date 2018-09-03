@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import configureStore from '~/shared/configureStore';
 import Page404 from '~/404';
+import BjjPage from '~/bjj/BjjPage';
 
 const store = configureStore();
 
@@ -11,6 +12,7 @@ ReactDOM.render(
     <Provider {...{store}} >
         <Router>
             <Switch>
+                <Route exact path='/bjj' component={BjjPage} />
                 <Route component={Page404} />
             </Switch>
         </Router>

@@ -1,14 +1,14 @@
-import { ICalendarEvent } from '~/shared/models';
+import { IBjjStats } from '~/bjj/models';
 import { GetBJJStatsRequest, GetBJJStatsSuccess, GetBJJStatsFailure } from '~/bjj/actions/getStats';
 import { assertActionsAreHandled } from '~/shared/IAction';
 
 export interface IBjjState {
-    classes: ICalendarEvent[];
+    stats: IBjjStats | null;
     loading: boolean;
 }
 
 const initialState: IBjjState = {
-    classes: [],
+    stats: null,
     loading: false
 };
 
@@ -19,7 +19,7 @@ export function bjj(state = initialState, action: HandledActions): IBjjState {
         case 'GET_BJJ_STATS_REQUEST':
             return { ...state, loading: true };
         case 'GET_BJJ_STATS_SUCCESS':
-            return { ...state, loading: false };
+            return { ...state, stats: (action.payload as any).stats, loading: false };
         case 'GET_BJJ_STATS_FAILURE':
             return { ...state, loading: false };
         default:
