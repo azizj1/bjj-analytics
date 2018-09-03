@@ -10,6 +10,34 @@
         <!-- mobile settings -->
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <style>
+        .preloader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: #fff;
+        }
+        .loader {
+            border: 2px solid #f3f3f3; /* Light grey */
+            border-top: 2px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
     <script>
         (function() {
             var redirect = sessionStorage.redirect;
@@ -23,15 +51,49 @@
     <!-- Font -->
     <link rel='dns-prefetch' href='//fonts.googleapis.com'>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700" rel="stylesheet">
-
 </head>
 <body data-scroll-animation="true" class="dark-theme">
     <div class="preloader" id="preloader">
-        <svg class="spinner" id="pageloader_anime" width="32px" height="32px" viewBox="0 0 66 66"
-            xmlns="http://www.w3.org/2000/svg">
-            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
-        </svg>
+        <div class="loader"></div>
     </div>
     <div id="root"></div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var fx = {
+            animate: function(options) {
+                var start = new Date;
+                var id = setInterval(function() {
+                    var timePassed = new Date - start;
+                    var progress = timePassed / options.duration;
+                    if (progress > 1) {
+                        progress = 1;
+                    }
+                    options.progress = progress;
+                    var delta = options.delta(progress);
+                    options.step(delta);
+                    if (progress == 1) {
+                        clearInterval(id);
+                        if (options.complete) options.complete();
+                    }
+                }, options.delay || 10);
+            },
+            fadeOut: function(element, options) {
+                var to = 1;
+                this.animate({
+                    duration: options.duration,
+                    delta: function(progress) {
+                        progress = this.progress;
+                        return 0.5 - Math.cos(progress * Math.PI);
+                    },
+                    complete: options.complete,
+                    step: function(delta) {
+                        element.style.opacity = to - delta;
+                    }
+                });
+            }
+        };
+        fx.fadeOut(document.getElementById('preloader'), { duration: 1000 });
+    });
+</script>
 </html>
