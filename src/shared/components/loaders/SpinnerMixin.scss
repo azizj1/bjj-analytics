@@ -1,0 +1,17 @@
+@mixin spinnerMixin {
+    .spinner {
+        animation: loadingSpin 400ms infinite linear;
+        width: 16px;
+        height: 16px;
+        box-sizing: border-box;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        border-right-color: #333;
+    }
+
+    @keyframes loadingSpin {
+        to {
+            transform: rotate(1turn);
+        }
+    }
+}

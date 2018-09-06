@@ -1,9 +1,10 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './rootReducer';
+import { errorHandler } from '~/shared/middlewares/errorHandler';
 
 export default function configureStore(initialState?: any) {
-    const middlewares = [thunk];
+    const middlewares = [thunk, errorHandler];
 
     let composeFn = compose;
 

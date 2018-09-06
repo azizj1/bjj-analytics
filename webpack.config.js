@@ -128,7 +128,7 @@ const config = {
                     },
                     {
                         loader: 'sass-loader',
-                        options: { sourceMap: DEBUG }
+                        options: { sourceMap: DEBUG, includePaths: [path.join(__dirname, 'src/shared/styles/')] }
                     }
                 ]
             },

@@ -2,6 +2,8 @@ import ApiError from './ApiError';
 import { camelCase, isObject, isArray, reduce } from 'lodash';
 
 export const endpoint = 'http://localhost:3000/calendars';
+export const devEndpoint = 'https://27shtszeu6.execute-api.us-east-1.amazonaws.com/dev/calendars';
+export const prodEndpoint = 'https://0jhkh4pn4b.execute-api.us-east-1.amazonaws.com/prod/calendars';
 
 export function checkStatus(response: Response) {
     if (response.status >= 200 && response.status < 300) {

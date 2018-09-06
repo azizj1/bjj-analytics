@@ -7,3 +7,7 @@ export interface ICalendarEvent {
     durationHours: number;
     isAllDay: boolean;
 }
+
+export enum ApiErrorCode {
+    Unknown
+}
