@@ -1,4 +1,5 @@
 declare const __DEV__: boolean;
+declare const __CALENDAR_ENDPOINT__: string;
 
 declare module '*.scss' {
 	const styles: any;
