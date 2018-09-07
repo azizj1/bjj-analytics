@@ -5,9 +5,11 @@ import { IBjjStats } from '~/bjj/models';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
 import { connect } from 'react-redux';
-import * as styles from './BjjPage.scss';
 import PulseLoader from '~/shared/components/loaders/PulseLoader';
 import Alert from '~/shared/components/Alert';
+import SideMenu from '~/shared/components/SideMenu';
+import * as cx from 'classnames';
+import * as styles from './BjjPage.scss';
 
 const options = {
     title: {
@@ -15,7 +17,10 @@ const options = {
     },
     series: [{
       data: [1, 2, 3]
-    }]
+    }],
+    credits: {
+        enabled: false
+    }
 };
 
 interface IBjjPageStateProps {
@@ -41,26 +46,38 @@ const mapDispatchToProps = {
     getBjjStats
 };
 
-export class BjjPage extends React.PureComponent<IBjjPageProps> {
+interface IBjjPageState {
+    menuVisible: boolean; // only relevant for mobile
+}
+
+export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
+    constructor(props: IBjjPageProps) {
+        super(props);
+        this.state = {
+            menuVisible: false
+        };
+    }
     componentWillMount() {
         this.props.getBjjStats();
     }
 
     render() {
         const { loading, hasError } = this.props;
+        const { menuVisible } = this.state;
         if (loading)
             return this.loader();
         if (hasError)
             return this.error();
         return (
-            <div className={styles.root}>
-                {this.header()}
-                <h2>Breakdown</h2>
-                <div>
-
+            <div className={cx(styles.root, {[styles.active]: menuVisible})}>
+                <SideMenu menuVisible={menuVisible} toggleVisibility={this.toggleMenu} />
+                <div onClick={this.toggleMenu}>
+                    {this.header()}
+                    <div className={styles.content}>
+                        <h2>Breakdown</h2>
+                        <HighchartsReact highcharts={Highcharts} options={options}/>
+                    </div>
                 </div>
-                <HighchartsReact highcharts={Highcharts} options={options}/>
-                <div>{loading}</div>
             </div>
         );
     }
@@ -69,7 +86,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps> {
         return (
             <div className={styles.header}>
                 <h1>Jiu-Jitsu Analysis</h1>
-                <span>My journey so far</span>
+                <h2>My journey so far</h2>
             </div>
         );
     }
@@ -91,6 +108,11 @@ export class BjjPage extends React.PureComponent<IBjjPageProps> {
                 <Alert type='danger' message={errorMessage} />
             </div>
         );
+    }
+
+    toggleMenu = () => {
+        console.log(`toggling.. currently at ${this.state.menuVisible}`);
+        this.setState(({menuVisible}) => ({menuVisible: !menuVisible}));
     }
 }
 

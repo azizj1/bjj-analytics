@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
@@ -29,7 +30,7 @@ const STATS = {
     children: false,
     errors: true,
     errorDetails: true,
-    warnings: false
+    warnings: true
 };
 
 // for css-loader
@@ -41,6 +42,19 @@ function cssConfig(modules, debug) {
         minimize: !debug
     };
 }
+
+function getVendors(directory, currentListOfVendors) {
+    currentListOfVendors = currentListOfVendors || [];
+    fs.readdirSync(directory).forEach(file => {
+        if (fs.statSync(directory + file).isDirectory())
+            currentListOfVendors = getVendors(directory + file + '/', currentListOfVendors);
+        else if (['.css', '.scss', '.js'].includes((path.extname(file) || '').toLowerCase()))
+            currentListOfVendors.push(directory + file);
+    });
+    return currentListOfVendors;
+}
+
+const vendors = getVendors('./vendor/', []);
 
 module.exports = function (env) {
     const DEBUG = env !== 'prod' && env !== 'dev';
@@ -74,6 +88,7 @@ module.exports = function (env) {
     const config = {
         mode: DEBUG ? 'development' : 'production',
         entry: {
+            'lib': vendors,
             'main': './src/main'
         },
         output: {
@@ -125,7 +140,7 @@ module.exports = function (env) {
                         DEBUG ? 'style-loader' : MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
-                            options: cssConfig(true)
+                            options: cssConfig(true, DEBUG)
                         },
                         {
                             loader: 'postcss-loader',
@@ -144,7 +159,7 @@ module.exports = function (env) {
                         DEBUG ? 'style-loader' : MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
-                            options: cssConfig(false) 
+                            options: cssConfig(false, DEBUG) 
                         },
                         {
                             loader: 'postcss-loader',
@@ -159,7 +174,7 @@ module.exports = function (env) {
                         DEBUG ? 'style-loader' : MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
-                            options: cssConfig(false)
+                            options: cssConfig(false, DEBUG)
                         },
                         {
                             loader: 'postcss-loader',
@@ -212,6 +227,9 @@ module.exports = function (env) {
             splitChunks: {
                 chunks: 'all'
             }
+        },
+        performance: {
+            hints: false
         },
         cache: DEBUG,
         stats: STATS

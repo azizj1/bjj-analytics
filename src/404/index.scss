@@ -1,9 +1,9 @@
-* {
-    font-family: 'PT Sans Caption', sans-serif, 'arial', 'Times New Roman';
-}
-
 .error {
     text-align: center;
+
+    * {
+        font-family: 'PT Sans Caption', sans-serif, 'arial', 'Times New Roman';
+    }
 
     .clip {
         display: inline-block;
