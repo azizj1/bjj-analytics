@@ -48,3 +48,12 @@ export interface IBjjStats {
     maxHours: number;
     classes: IBjjClass[];
 }
+
+export interface IDataPoint {
+    x: number;
+    y: number;
+}
+export interface IBjjClassTypeSeries {
+    gi: IDataPoint[];
+    noGi: IDataPoint[];
+}

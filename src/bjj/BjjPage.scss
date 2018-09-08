@@ -15,7 +15,7 @@ body {
 
     .content {
         margin: 0 auto;
-        padding: 0 2em;
+        padding: 0 0.5em;
         margin-bottom: 50px;
         line-height: 1.6em;
 
@@ -49,13 +49,21 @@ body {
     }
 
     .loader {
-        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 2em;
+    }
+
+    .error {
+        margin-top: 2em;
+        width: auto;
     }
 
     /*
-    Hides the menu at `48em` (768px), but modify this based on your app's needs.
+    Hides the menu at `$mobile` (768px), but modify this based on your app's needs.
     */
-    @media (min-width: 48em) {
+    @media (min-width: $mobile) {
         padding-left: $menu-width; /* left col width "#menu" */
         left: 0;
 
@@ -66,7 +74,7 @@ body {
         }
     }
 
-    @media (max-width: 48em) {
+    @media (max-width: $mobile) {
         /* Only apply this when the window is small. Otherwise, the following
         case results in extra padding on the left:
             * Make the window small.

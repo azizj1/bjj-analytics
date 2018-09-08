@@ -1,7 +1,5 @@
 import * as React from 'react';
-import * as Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import { IBjjStats } from '~/bjj/models';
+import { IBjjStats, IBjjClassTypeSeries } from '~/bjj/models';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
 import { connect } from 'react-redux';
@@ -10,24 +8,15 @@ import Alert from '~/shared/components/Alert';
 import SideMenu from '~/shared/components/SideMenu';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
-
-const options = {
-    title: {
-      text: 'My chart'
-    },
-    series: [{
-      data: [1, 2, 3]
-    }],
-    credits: {
-        enabled: false
-    }
-};
+import getClassTypesSeries from '~/bjj/selectors/getClassTypesSeries';
+import BjjClassType from '~/bjj/components/BjjClassType';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;
     loading: boolean;
     errorMessage: string;
     hasError: boolean;
+    bjjClassTypeSeries: IBjjClassTypeSeries;
 }
 
 interface IBjjPageDispatchProps {
@@ -39,7 +28,8 @@ type IBjjPageProps = IBjjPageStateProps & IBjjPageDispatchProps;
 function mapStateToProps(state: IState): IBjjPageStateProps {
     const { stats, loading, error } = state.bjj;
     const { message, hasError } = error;
-    return { stats, loading, hasError, errorMessage: message };
+    const bjjClassTypeSeries = getClassTypesSeries(state);
+    return { stats, loading, hasError, bjjClassTypeSeries, errorMessage: message };
 }
 
 const mapDispatchToProps = {
@@ -49,6 +39,11 @@ const mapDispatchToProps = {
 interface IBjjPageState {
     menuVisible: boolean; // only relevant for mobile
 }
+
+const colors = [
+    '#2ecc71',
+    '#3498db'
+];
 
 export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     constructor(props: IBjjPageProps) {
@@ -62,58 +57,43 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     }
 
     render() {
-        const { loading, hasError } = this.props;
+        const { loading, hasError, errorMessage } = this.props;
         const { menuVisible } = this.state;
-        if (loading)
-            return this.loader();
-        if (hasError)
-            return this.error();
         return (
             <div className={cx(styles.root, {[styles.active]: menuVisible})}>
                 <SideMenu menuVisible={menuVisible} toggleVisibility={this.toggleMenu} />
-                <div onClick={this.toggleMenu}>
-                    {this.header()}
+                <div onClick={this.handleContentClick}>
+                    <div className={styles.header}>
+                        <h1>Jiu-Jitsu Analysis</h1>
+                        <h2>My journey so far</h2>
+                    </div>
                     <div className={styles.content}>
-                        <h2>Breakdown</h2>
-                        <HighchartsReact highcharts={Highcharts} options={options}/>
+                        {loading && <div className={styles.loader}><PulseLoader /></div>}
+                        {hasError && <Alert type='danger' message={errorMessage} className={styles.error} />}
+                        {!loading && !hasError && this.renderGraphs()}
                     </div>
                 </div>
             </div>
         );
     }
 
-    header() {
-        return (
-            <div className={styles.header}>
-                <h1>Jiu-Jitsu Analysis</h1>
-                <h2>My journey so far</h2>
-            </div>
-        );
+    renderGraphs() {
+        if (this.props.stats == null) return null;
+        const { bjjClassTypeSeries, stats: {typeBreakdown: {giHours, noGiHours}} } = this.props;
+        return [
+            <BjjClassType
+                key='1'
+                stats={bjjClassTypeSeries}
+                totalGiHours={giHours}
+                totalNoGiHours={noGiHours}
+                colors={colors} />
+        ];
     }
 
-    loader() {
-        return (
-            <div className={styles.root}>
-                {this.header()}
-                <div className={styles.loader}><PulseLoader /></div>
-            </div>
-        );
-    }
+    toggleMenu = () => this.setState(({menuVisible}) => ({menuVisible: !menuVisible}));
 
-    error() {
-        const { errorMessage } = this.props;
-        return (
-            <div className={styles.root}>
-                {this.header()}
-                <Alert type='danger' message={errorMessage} />
-            </div>
-        );
-    }
+    handleContentClick = () => this.state.menuVisible && this.toggleMenu();
 
-    toggleMenu = () => {
-        console.log(`toggling.. currently at ${this.state.menuVisible}`);
-        this.setState(({menuVisible}) => ({menuVisible: !menuVisible}));
-    }
 }
 
 export default connect<IBjjPageStateProps, IBjjPageDispatchProps, null>(mapStateToProps, mapDispatchToProps)(BjjPage);

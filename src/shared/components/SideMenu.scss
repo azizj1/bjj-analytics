@@ -24,7 +24,7 @@
         padding: 0.8em 0 0.8em 0.8em;
     }
 
-    @media (min-width: 48em) {
+    @media (min-width: $mobile) {
         left: $menu-width;
     }
 
@@ -121,7 +121,7 @@
             margin-top: 0.6em;
         }
     }
-    @media (min-width: 48em) {
+    @media (min-width: $mobile) {
         position: fixed;
         left: $menu-width;
         display: none;
