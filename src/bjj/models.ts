@@ -53,7 +53,15 @@ export interface IDataPoint {
     x: number;
     y: number;
 }
+
 export interface IBjjClassTypeSeries {
     gi: IDataPoint[];
     noGi: IDataPoint[];
 }
+
+export interface IBjjClassTimeSeries {
+    morning: IDataPoint[];
+    afternoon: IDataPoint[];
+    evening: IDataPoint[];
+}
+
