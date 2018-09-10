@@ -13,6 +13,7 @@ ReactDOM.render(
     <Provider {...{store}} >
         <Router>
             <Switch>
+                <Route exact path='/' component={BjjPage} />
                 <Route exact path='/bjj' component={BjjPage} />
                 <Route component={Page404} />
             </Switch>

@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import * as styles from './Graphs.scss';
-import { IBjjWeeklyHours, IDataPoint } from '~/bjj/models';
 import { baseOptions } from '~/bjj/components';
+import { IWeeklyHourPoint } from '~/bjj/models';
 
 interface IWeeklyHoursProps {
-    stats: IBjjWeeklyHours[];
-    statsRegression: IDataPoint[];
+    stats: IWeeklyHourPoint[];
+    statsSma: IWeeklyHourPoint[];
 }
 
 const colors = [
@@ -16,24 +16,24 @@ const colors = [
 ];
 
 
-export default function WeeklyHours({stats, statsRegression}: IWeeklyHoursProps) {
+export default function WeeklyHours({stats, statsSma}: IWeeklyHoursProps) {
     const lineOptions = {
         ...baseOptions,
         series: [{
             name: 'Weekly Hours',
             color: colors[0],
-            data: stats.map(s => ({x: s.startTime, y: s.hours, week: s.week})),
+            data: stats,
             type: 'column'
         }, {
-            name: 'Regression',
+            name: 'Moving Average',
             color: colors[1],
-            data: statsRegression,
+            data: statsSma,
             type: 'spline'
         }],
         plotOptions: {
             spline: {
                 lineWidth: 1.5,
-                enableMouseTracking: false,
+                // enableMouseTracking: false,
                 marker: {
                     enabled: false
                 },

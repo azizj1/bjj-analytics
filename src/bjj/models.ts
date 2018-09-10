@@ -54,6 +54,10 @@ export interface IDataPoint {
     y: number;
 }
 
+export interface IWeeklyHourPoint extends IDataPoint {
+    week: string;
+}
+
 export interface IBjjClassTypeSeries {
     gi: IDataPoint[];
     noGi: IDataPoint[];
