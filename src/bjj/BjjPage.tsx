@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBjjStats, IBjjClassTypeSeries, IBjjClassTimeSeries } from '~/bjj/models';
+import { IBjjStats, IBjjClassTypeSeries, IBjjClassTimeSeries, IBjjWeeklyHours, IDataPoint } from '~/bjj/models';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
 import { connect } from 'react-redux';
@@ -12,6 +12,9 @@ import getClassTypesSeries from '~/bjj/selectors/getClassTypesSeries';
 import BjjClassType from '~/bjj/components/BjjClassType';
 import getClassTimeSeries from '~/bjj/selectors/getClassTimeSeries';
 import BjjClassTimes from '~/bjj/components/BjjClassTimes';
+import WeeklyHours from '~/bjj/components/WeeklyHours';
+import getWeeklyHours from '~/bjj/selectors/getWeeklyHours';
+import getWeeklyHoursRegression from '~/bjj/selectors/getWeeklyHoursRegression';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;
@@ -20,6 +23,8 @@ interface IBjjPageStateProps {
     hasError: boolean;
     bjjClassTypeSeries: IBjjClassTypeSeries;
     bjjClassTimeSeries: IBjjClassTimeSeries;
+    weeklyHours: IBjjWeeklyHours[];
+    weeklyHoursRegression: IDataPoint[];
 }
 
 interface IBjjPageDispatchProps {
@@ -33,7 +38,12 @@ function mapStateToProps(state: IState): IBjjPageStateProps {
     const { message, hasError } = error;
     const bjjClassTypeSeries = getClassTypesSeries(state);
     const bjjClassTimeSeries = getClassTimeSeries(state);
-    return { stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, errorMessage: message };
+    const weeklyHours = getWeeklyHours(state);
+    const weeklyHoursRegression = getWeeklyHoursRegression(state);
+    return {
+        stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, weeklyHoursRegression,
+        errorMessage: message
+    };
 }
 
 const mapDispatchToProps = {
@@ -82,12 +92,15 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
         const {
             bjjClassTypeSeries,
             bjjClassTimeSeries,
+            weeklyHours,
+            weeklyHoursRegression,
             stats: {
                 typeBreakdown: {giHours, noGiHours},
                 timeBreakdown: {morningHours, afternoonHours, eveningHours}
             }
         } = this.props;
         return [
+            <WeeklyHours key='0' stats={weeklyHours} statsRegression={weeklyHoursRegression} />,
             <BjjClassType
                 key='1'
                 stats={bjjClassTypeSeries}

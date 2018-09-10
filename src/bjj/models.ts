@@ -65,3 +65,9 @@ export interface IBjjClassTimeSeries {
     evening: IDataPoint[];
 }
 
+export interface IBjjWeeklyHours {
+    hours: number;
+    startTime: number;
+    week: string;
+    weekKey: number;
+}

@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { IBjjClassTimeSeries } from '~/bjj/models';
-import { baseOptions, lineTooltipFormatter } from '~/bjj/components/BjjClassType';
 import * as styles from './Graphs.scss';
+import { baseOptions, lineTooltipFormatter } from '~/bjj/components';
 
 interface IBjjClassTimesProps {
     stats: IBjjClassTimeSeries;
