@@ -9,6 +9,7 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const endpoints = require('./endpoints');
+const cnames = require('./cnames');
 
 const STYLELINT_CONFIG = {
     files: 'src/**/*.scss',
@@ -82,7 +83,7 @@ module.exports = function (env) {
         cacheDirectory: DEBUG 
     };
     const CREATE_FILE_CONFIG = {
-        path: BUILD_DIR, fileName: 'CNAME', content: TIER === 'prod' ? 'azizj1.com' : 'dev.azizj1.com'
+        path: BUILD_DIR, fileName: 'CNAME', content: DEBUG ? '' : cnames[TIER]
     };
 
     const config = {
