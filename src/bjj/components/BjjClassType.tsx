@@ -48,7 +48,7 @@ export default function BjjClassType({stats: {gi, noGi}, totalNoGiHours, totalGi
         }]
     };
     return (
-        <div>
+        <div className={styles.root}>
             <h2>Gi vs. NoGi</h2>
             <div className={styles.graphs}>
                 <div className={styles.line}>

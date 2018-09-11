@@ -65,7 +65,7 @@ export default function BjjClassTimes(
         }]
     };
     return (
-        <div>
+        <div className={styles.root}>
             <h2>Time of day</h2>
             <div className={styles.graphs}>
                 <div className={styles.line}>

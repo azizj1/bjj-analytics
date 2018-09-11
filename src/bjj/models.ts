@@ -26,6 +26,22 @@ export interface IBjjClass extends ICalendarEvent {
     level: BjjClassLevel;
 }
 
+export enum BjjBelt {
+    White,
+    Blue,
+    Purple,
+    Brown,
+    Black
+}
+
+export interface IBjjPromotion {
+    color: BjjBelt;
+    stripes: number;
+    date: string;
+    timeItTook: string;
+    hoursItTook: number;
+}
+
 export interface IBjjOverviewStats {
     totalHours: number;
     totalWeeks: number;
@@ -48,6 +64,7 @@ export interface IBjjStats extends IBjjOverviewStats {
         afternoonHours: number;
         eveningHours: number;
     };
+    promotions: IBjjPromotion[];
     classes: IBjjClass[];
 }
 
@@ -58,6 +75,12 @@ export interface IDataPoint {
 
 export interface IWeeklyHourPoint extends IDataPoint {
     week: string;
+}
+
+export interface IDayOfWeekPoint {
+    x: string;
+    y: number;
+    week: number;
 }
 
 export interface IBjjClassTypeSeries {
@@ -76,4 +99,10 @@ export interface IBjjWeeklyHours {
     startTime: number;
     week: string;
     weekKey: number;
+}
+
+export interface IDaysOfWeekAgg {
+    morning: IDayOfWeekPoint[];
+    afternoon: IDayOfWeekPoint[];
+    evening: IDayOfWeekPoint[];
 }

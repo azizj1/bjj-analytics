@@ -15,7 +15,6 @@ body {
 
     .content {
         margin: 0 auto;
-        padding: 0 0.5em;
         margin-bottom: 50px;
         line-height: 1.6em;
 
@@ -63,8 +62,13 @@ body {
     }
 
     .error {
-        margin-top: 2em;
+        margin: 2em 0.5em 0 0.5em;
         width: auto;
+
+        @media (min-width: $mobile) {
+            margin-left: 2em;
+            margin-right: 2em;
+        }
     }
 
     /*
@@ -74,8 +78,7 @@ body {
         padding-left: $menu-width; /* left col width "#menu" */
         left: 0;
 
-        .header,
-        .content {
+        .header {
             padding-left: 2em;
             padding-right: 2em;
         }

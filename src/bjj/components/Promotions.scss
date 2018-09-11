@@ -1,0 +1,55 @@
+@import 'variables';
+
+@mixin bg-fg-contrast($color) {
+    background-color: $color;
+    color: lighten($color: $color, $amount: 20%);
+
+    :global(.sicon) {
+        fill: lighten($color: $color, $amount: 10%);
+    }
+}
+
+.root {
+    display: flex;
+
+    margin-top: 50px;
+
+    :global(.sicon) {
+        fill: $muted;
+        width: 20px;
+        height: 20px;
+    }
+
+    > * {
+        flex-grow: 1;
+        height: 3.5em;
+        padding: 8px;
+
+        // children props
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .white {
+        background-color: #f8f8f8;
+        flex-grow: 5;
+        border: 1px solid #eee;
+    }
+
+    .blue {
+        @include bg-fg-contrast(#2980b9);
+    }
+
+    .purple {
+        @include bg-fg-contrast(#8e44ad);
+    }
+
+    .brown {
+        @include bg-fg-contrast(#4b4b4b);
+    }
+
+    .black {
+        @include bg-fg-contrast(#2c3e50);
+    }
+}

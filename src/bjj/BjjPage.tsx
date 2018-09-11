@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IBjjStats, IBjjClassTypeSeries, IBjjClassTimeSeries, IWeeklyHourPoint } from '~/bjj/models';
+import { IBjjStats, IBjjClassTypeSeries, IBjjClassTimeSeries, IWeeklyHourPoint, IDaysOfWeekAgg } from '~/bjj/models';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
 import { connect } from 'react-redux';
@@ -15,6 +15,9 @@ import BjjClassTimes from '~/bjj/components/BjjClassTimes';
 import getWeeklyHours from '~/bjj/selectors/getWeeklyHours';
 import getWeeklyHoursSma from '~/bjj/selectors/getWeeklyHoursSma';
 import Overview from '~/bjj/components/Overview';
+import Promotions from '~/bjj/components/Promotions';
+import getDayOfWeekAgg from '~/bjj/selectors/getDayOfWeekAgg';
+import DayOfWeek from '~/bjj/components/DayOfWeek';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;
@@ -25,6 +28,7 @@ interface IBjjPageStateProps {
     bjjClassTimeSeries: IBjjClassTimeSeries;
     weeklyHours: IWeeklyHourPoint[];
     weeklyHoursSma: IWeeklyHourPoint[];
+    dayOfWeekAgg: IDaysOfWeekAgg;
 }
 
 interface IBjjPageDispatchProps {
@@ -40,9 +44,10 @@ function mapStateToProps(state: IState): IBjjPageStateProps {
     const bjjClassTimeSeries = getClassTimeSeries(state);
     const weeklyHours = getWeeklyHours(state);
     const weeklyHoursSma = getWeeklyHoursSma(state);
+    const dayOfWeekAgg = getDayOfWeekAgg(state);
     return {
         stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours,
-        weeklyHoursSma, errorMessage: message
+        weeklyHoursSma, dayOfWeekAgg, errorMessage: message
     };
 }
 
@@ -94,14 +99,17 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
             bjjClassTimeSeries,
             weeklyHours,
             weeklyHoursSma,
+            dayOfWeekAgg,
             stats
         } = this.props;
         const {
             typeBreakdown: {giHours, noGiHours},
-            timeBreakdown: {morningHours, afternoonHours, eveningHours}
+            timeBreakdown: {morningHours, afternoonHours, eveningHours},
+            promotions
         } = stats;
         return [
             <Overview key='0'{...{stats, weeklyHours, weeklyHoursSma}} />,
+            <Promotions promotions={promotions} key='1' />,
             <BjjClassType
                 key='2'
                 stats={bjjClassTypeSeries}
@@ -112,7 +120,8 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                 stats={bjjClassTimeSeries}
                 totalMorningHours={morningHours}
                 totalAfternoonHours={afternoonHours}
-                totalEveningHours={eveningHours} />
+                totalEveningHours={eveningHours} />,
+            <DayOfWeek key='4' stats={dayOfWeekAgg} />
         ];
     }
 

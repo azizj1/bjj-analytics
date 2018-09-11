@@ -1,5 +1,14 @@
 @import 'variables';
 
+.root {
+    padding: 0 0.5em;
+
+    @media (min-width: $mobile) {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+}
+
 .graphs {
     display: flex;
     flex-direction: column;
