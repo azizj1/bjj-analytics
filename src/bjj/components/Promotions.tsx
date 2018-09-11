@@ -6,8 +6,7 @@ import Lock from '~/bjj/components/Icons/Lock';
 interface IPromotionsProps {
     promotions: IBjjPromotion[];
 }
-export default function Promotions({promotions}: IPromotionsProps) {
-    console.log(promotions);
+export default function Promotions({}: IPromotionsProps) {
     return (
         <div className={styles.root}>
             <div className={styles.white}>Test</div>

@@ -1,5 +1,7 @@
 import * as moment from 'moment-timezone';
 
+export const mobileWidth = 769;
+
 export const baseOptions = {
     title: {
         text: undefined as any
@@ -38,7 +40,7 @@ export const baseOptions = {
     responsive: {
         rules: [{
             condition: {
-                maxWidth: 768
+                maxWidth: mobileWidth
             },
             chartOptions: {
                 yAxis: {
@@ -49,8 +51,14 @@ export const baseOptions = {
     } as any
 } as Highcharts.Options;
 
+const isPieSeries = (x: number) => x == null;
 
-export function lineTooltipFormatter() {
+export function tooltipFormatter() {
+    if (isPieSeries(this.x)) {
+        return `<span style="font-size: 10px">${this.key}</span><br/>` +
+        `<span style="color:${this.color}">\u25CF</span>` +
+            `<b>${this.y}hrs</b> (${Math.round(this.percentage)}%)<br/>`;
+    }
     const key = moment.tz(this.key, 'America/Chicago').format('dddd, MMM Do, h:mma');
     return `<span style="font-size: 10px">${key}</span><br/>` +
         `<span style="color:${this.color}">\u25CF</span>` +

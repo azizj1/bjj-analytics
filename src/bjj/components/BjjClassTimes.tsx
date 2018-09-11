@@ -3,7 +3,7 @@ import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { IBjjClassTimeSeries } from '~/bjj/models';
 import * as styles from './Graphs.scss';
-import { baseOptions, lineTooltipFormatter } from '~/bjj/components';
+import { baseOptions, tooltipFormatter } from '~/bjj/components';
 
 interface IBjjClassTimesProps {
     stats: IBjjClassTimeSeries;
@@ -42,7 +42,7 @@ export default function BjjClassTimes(
             data: evening
         }],
         tooltip: {
-            formatter: lineTooltipFormatter
+            formatter: tooltipFormatter
         }
     };
     const pieOptions = {

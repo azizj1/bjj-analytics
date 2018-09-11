@@ -13,7 +13,11 @@
     display: flex;
     flex-direction: column;
 
-    @media (min-width: $mobile) {
+    .pie {
+        display: none;
+    }
+
+    @media (min-width: $md-desktop) {
         flex-direction: row;
 
         .line {
@@ -21,6 +25,7 @@
         }
 
         .pie {
+            display: block;
             margin-top: -2em;
             width: 40%;
         }
