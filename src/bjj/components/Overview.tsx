@@ -17,7 +17,7 @@ export default function Overview({
         totalClasses,
         avgHrsPerWeek,
         avgClassesPerWeek,
-        avgHourPerSession
+        avgHourPerClass
     },
     weeklyHours,
     weeklyHoursSma
@@ -31,7 +31,7 @@ export default function Overview({
                 { key: 'Total classes', value: totalClasses + ' classes' },
                 { key: 'Avg hours/wk', value: readableHours(avgHrsPerWeek) + ' /wk' },
                 { key: 'Avg classes/wk', value: Math.round(avgClassesPerWeek * 10) / 10 + ' classes/wk' },
-                { key: 'Avg hours/class', value: readableHours(avgHourPerSession) + ' /class' }
+                { key: 'Avg hours/class', value: readableHours(avgHourPerClass) + ' /class' }
             ]} />
             <WeeklyHours stats={weeklyHours} statsSma={weeklyHoursSma} />
         </div>

@@ -55,7 +55,7 @@ function getVendors(directory, currentListOfVendors) {
     return currentListOfVendors;
 }
 
-const vendors = getVendors('./vendor/', []);
+const vendors = getVendors('./vendor/', ['babel-polyfill', 'whatwg-fetch']);
 
 module.exports = function (env) {
     const DEBUG = env !== 'prod' && env !== 'dev';

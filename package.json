@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/azizj1/bjj-analytics#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "highcharts": "^6.1.2",
     "highcharts-react-official": "^1.4.0",
@@ -33,7 +34,8 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

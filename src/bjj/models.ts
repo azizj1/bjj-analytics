@@ -48,7 +48,7 @@ export interface IBjjOverviewStats {
     totalClasses: number;
     avgHrsPerWeek: number;
     avgClassesPerWeek: number;
-    avgHourPerSession: number;
+    avgHourPerClass: number;
     trainingDuration: string;
     minHours: number;
     maxHours: number;
