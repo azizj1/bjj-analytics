@@ -12,9 +12,9 @@ import getClassTypesSeries from '~/bjj/selectors/getClassTypesSeries';
 import BjjClassType from '~/bjj/components/BjjClassType';
 import getClassTimeSeries from '~/bjj/selectors/getClassTimeSeries';
 import BjjClassTimes from '~/bjj/components/BjjClassTimes';
-import WeeklyHours from '~/bjj/components/WeeklyHours';
 import getWeeklyHours from '~/bjj/selectors/getWeeklyHours';
 import getWeeklyHoursSma from '~/bjj/selectors/getWeeklyHoursSma';
+import Overview from '~/bjj/components/Overview';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;
@@ -94,20 +94,21 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
             bjjClassTimeSeries,
             weeklyHours,
             weeklyHoursSma,
-            stats: {
-                typeBreakdown: {giHours, noGiHours},
-                timeBreakdown: {morningHours, afternoonHours, eveningHours}
-            }
+            stats
         } = this.props;
+        const {
+            typeBreakdown: {giHours, noGiHours},
+            timeBreakdown: {morningHours, afternoonHours, eveningHours}
+        } = stats;
         return [
-            <WeeklyHours key='0' stats={weeklyHours} statsSma={weeklyHoursSma} />,
+            <Overview key='0'{...{stats, weeklyHours, weeklyHoursSma}} />,
             <BjjClassType
-                key='1'
+                key='2'
                 stats={bjjClassTypeSeries}
                 totalGiHours={giHours}
                 totalNoGiHours={noGiHours} />,
             <BjjClassTimes
-                key='2'
+                key='3'
                 stats={bjjClassTimeSeries}
                 totalMorningHours={morningHours}
                 totalAfternoonHours={afternoonHours}

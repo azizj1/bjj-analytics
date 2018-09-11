@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import * as styles from './Graphs.scss';
 import { baseOptions } from '~/bjj/components';
 import { IWeeklyHourPoint } from '~/bjj/models';
+import * as styles from './Graphs.scss';
 
 interface IWeeklyHoursProps {
     stats: IWeeklyHourPoint[];
@@ -14,7 +14,6 @@ const colors = [
     '#3498db',
     '#2ecc71'
 ];
-
 
 export default function WeeklyHours({stats, statsSma}: IWeeklyHoursProps) {
     const lineOptions = {
@@ -59,7 +58,7 @@ export default function WeeklyHours({stats, statsSma}: IWeeklyHoursProps) {
 
     return (
         <div>
-            <h2>Weeky Hours</h2>
+            <h3>Weekly hours over Time</h3>
             <div className={styles.graphs}>
                 <div className={styles.lineFull}>
                     <HighchartsReact highcharts={Highcharts} options={lineOptions} />

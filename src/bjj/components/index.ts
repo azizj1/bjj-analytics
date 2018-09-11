@@ -34,7 +34,19 @@ export const baseOptions = {
                 }
             }
         }
-    }
+    },
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 768
+            },
+            chartOptions: {
+                yAxis: {
+                    title: ''
+                }
+            }
+        }]
+    } as any
 } as Highcharts.Options;
 
 

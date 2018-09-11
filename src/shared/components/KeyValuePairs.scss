@@ -1,0 +1,65 @@
+$base-measurement: 1rem;
+$breakpoint-tablet-portrait: 45rem;
+$column-gutter: $base-measurement * 2;
+$color-type: #444;
+$color-panel: #f8f8f8;
+$color-body: #fff;
+
+.root {
+    // Choose a minimum column width that allows for two
+    // columns on a large tablet in portrait mode (~700px)
+    column-width: ($breakpoint-tablet-portrait - $column-gutter) / 2;
+    width: 100%;
+    column-gap: $column-gutter;
+    position: relative;
+    color: $color-type;
+
+    &::before {
+        background: $color-body;
+        top: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        height: 1px;
+        content: '';
+    }
+
+    dl {
+        break-inside: avoid-column;
+        padding: 0;
+        margin: 0;
+        display: table;
+        width: 100%;
+        overflow: auto;
+        border-bottom: 1px solid darken($color-body, 10%);
+
+        dt {
+            margin: 0;
+            padding: $base-measurement * 0.75;
+            width: 50%;
+            display: table-cell;
+            font-weight: bold;
+        }
+
+        dd {
+            display: table-cell;
+            padding: $base-measurement * 0.75;
+            width: 50%;
+            overflow: hidden;
+            vertical-align: top;
+            color: foreground-color($color-panel);
+            background: $color-panel;
+
+            div,
+            a {
+                text-decoration: none;
+                display: block;
+
+                + div,
+                + a {
+                    margin-top: $base-measurement * 0.25;
+                }
+            }
+        }
+    }
+}

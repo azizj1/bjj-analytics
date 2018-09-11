@@ -26,10 +26,19 @@ export interface IBjjClass extends ICalendarEvent {
     level: BjjClassLevel;
 }
 
-export interface IBjjStats {
+export interface IBjjOverviewStats {
     totalHours: number;
     totalWeeks: number;
     totalClasses: number;
+    avgHrsPerWeek: number;
+    avgClassesPerWeek: number;
+    avgHourPerSession: number;
+    trainingDuration: string;
+    minHours: number;
+    maxHours: number;
+}
+
+export interface IBjjStats extends IBjjOverviewStats {
     typeBreakdown: {
         noGiHours: number;
         giHours: number;
@@ -39,13 +48,6 @@ export interface IBjjStats {
         afternoonHours: number;
         eveningHours: number;
     };
-    totalFundamentalHours: number;
-    avgHrsPerWeek: number;
-    avgClassesPerWeek: number;
-    avgHourPerSession: number;
-    trainingDuration: string;
-    minHours: number;
-    maxHours: number;
     classes: IBjjClass[];
 }
 
