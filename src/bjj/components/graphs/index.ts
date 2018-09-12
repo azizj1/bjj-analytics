@@ -23,7 +23,6 @@ export const baseOptions = {
                 distance: -70,
                 color: 'white',
                 formatter: function() {
-                    console.log(this);
                     return `<div class='hcCenter'>` +
                         `<span>${this.point.name}</span><span>${this.y}hrs (${Math.round(this.percentage)}%)</span>`
                         + `</div>`;

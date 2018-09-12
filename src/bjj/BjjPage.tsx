@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { IBjjStats, IBjjClassTypeSeries, IBjjClassTimeSeries, IWeeklyHourPoint, IDaysOfWeekAgg } from '~/bjj/models';
+import {
+    IBjjStats,
+    IBjjClassTypeSeries,
+    IBjjClassTimeSeries,
+    IWeeklyHourPoint,
+    IDaysOfWeekAgg,
+    BjjBelt
+} from '~/bjj/models';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
 import { connect } from 'react-redux';
@@ -71,16 +78,15 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     }
 
     render() {
-        const { loading, hasError, errorMessage, stats } = this.props;
+        const { loading, hasError, errorMessage } = this.props;
         const { menuVisible } = this.state;
-        const trainingDuration = stats == null ? '...' : stats.trainingDuration;
         return (
             <div className={cx(styles.root, {[styles.active]: menuVisible})}>
                 <SideMenu menuVisible={menuVisible} toggleVisibility={this.toggleMenu} />
                 <div onClick={this.handleContentClick}>
                     <div className={styles.header}>
                         <h1>Jiu-Jitsu Analysis</h1>
-                        <h2>For the past {trainingDuration}</h2>
+                        <h2>{this.currentRank()}</h2>
                     </div>
                     <div className={styles.content}>
                         {loading && <div className={styles.loader}><PulseLoader /></div>}
@@ -128,6 +134,16 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     toggleMenu = () => this.setState(({menuVisible}) => ({menuVisible: !menuVisible}));
 
     handleContentClick = () => this.state.menuVisible && this.toggleMenu();
+
+    currentRank() {
+        if (this.props.stats == null)
+            return '...';
+        const { stats: { promotions }} = this.props;
+        if (promotions.length <= 1)
+            return 'White Belt';
+        const last = promotions[promotions.length - 2];
+        return `${BjjBelt[last.color]} Belt ${Array(last.stripes + 1).join('I')}`;
+    }
 
 }
 
