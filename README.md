@@ -1,6 +1,9 @@
 # BJJ Analytics
 React web app that uses [Highcharts](https://www.highcharts.com/) to display useful metrics and graphs, using endpoints from [Google Calendar Analytics](https://0jhkh4pn4b.execute-api.us-east-1.amazonaws.com/prod/docs/) to get the data.
 
+## Demo
+The production version is live at [www.azizj1.com](www.azizj1.com). Dev version is at [dev.azizj1.com](dev.azizj1.com).
+
 ## Getting Started
 This repo is a client for the analytics API, so it necessitates a couple of prerequisites.
 
