@@ -4,7 +4,6 @@
   "description": "React webpage to display analytics from bjj events in my Fitness Google Calendar",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open",
     "build": "webpack --env dev",
     "deploy": "webpack --env dev && gh-pages -d build -r https://github.com/azizj1/dev-azizj1.git -b master",
