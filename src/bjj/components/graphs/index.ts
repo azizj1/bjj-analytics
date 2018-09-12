@@ -23,6 +23,7 @@ export const baseOptions = {
                 distance: -70,
                 color: 'white',
                 formatter: function() {
+                    console.log(this);
                     return `<div class='hcCenter'>` +
                         `<span>${this.point.name}</span><span>${this.y}hrs (${Math.round(this.percentage)}%)</span>`
                         + `</div>`;
@@ -63,4 +64,46 @@ export function tooltipFormatter() {
     return `<span style="font-size: 10px">${key}</span><br/>` +
         `<span style="color:${this.color}">\u25CF</span>` +
             ` ${this.series.name}: <b>${this.y}hrs</b> cumulative<br/>`;
+}
+
+export function getLineAndPieOptions(
+    pieData: Highcharts.DataPoint[],
+    lineSeries: Highcharts.IndividualSeriesOptions[]
+) {
+    const lineOptions = {
+        ...baseOptions,
+        series: lineSeries,
+        tooltip: {
+            formatter: tooltipFormatter
+        }
+    } as Highcharts.Options;
+
+    const pieOptions = {
+        ...baseOptions,
+        chart: { type: 'pie' },
+        series: [{
+            data: pieData
+        }]
+    } as Highcharts.Options;
+
+    const mobilePieOptions = {
+        ...lineOptions,
+        series: [
+            ...lineSeries,
+            {
+                id: 'pie',
+                name: 'All-time',
+                type: 'pie',
+                data: pieData,
+                center: [50, 60],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        ]
+    } as Highcharts.Options;
+
+    return { lineOptions, pieOptions, mobilePieOptions };
 }

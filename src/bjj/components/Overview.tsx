@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { IBjjOverviewStats, IWeeklyHourPoint } from '~/bjj/models';
 import KeyValuePairs from '~/shared/components/KeyValuePairs';
-import WeeklyHours from '~/bjj/components/WeeklyHours';
-import * as styles from './Graphs.scss';
+import WeeklyHours from '~/bjj/components/graphs/WeeklyHours';
+import * as styles from './graphs/Graphs.scss';
 
 interface IOverviewProps {
     stats: IBjjOverviewStats;
