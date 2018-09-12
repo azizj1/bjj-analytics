@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { baseOptions } from '~/bjj/components';
+import { baseOptions } from '~/bjj/components/graphs';
 import { IWeeklyHourPoint } from '~/bjj/models';
 import * as styles from './Graphs.scss';
 

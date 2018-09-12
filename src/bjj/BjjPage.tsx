@@ -9,15 +9,15 @@ import SideMenu from '~/shared/components/SideMenu';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
 import getClassTypesSeries from '~/bjj/selectors/getClassTypesSeries';
-import BjjClassType from '~/bjj/components/BjjClassType';
+import BjjClassType from '~/bjj/components/graphs/BjjClassType';
 import getClassTimeSeries from '~/bjj/selectors/getClassTimeSeries';
-import BjjClassTimes from '~/bjj/components/BjjClassTimes';
+import BjjClassTimes from '~/bjj/components/graphs/BjjClassTimes';
 import getWeeklyHours from '~/bjj/selectors/getWeeklyHours';
 import getWeeklyHoursSma from '~/bjj/selectors/getWeeklyHoursSma';
 import Overview from '~/bjj/components/Overview';
 import Promotions from '~/bjj/components/Promotions';
 import getDayOfWeekAgg from '~/bjj/selectors/getDayOfWeekAgg';
-import DayOfWeek from '~/bjj/components/DayOfWeek';
+import DayOfWeek from '~/bjj/components/graphs/DayOfWeek';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IDaysOfWeekAgg } from '~/bjj/models';
-import { baseOptions } from '~/bjj/components';
+import { baseOptions } from '~/bjj/components/graphs';
 import HighchartsReact from 'highcharts-react-official';
 import * as Highcharts from 'highcharts';
 import * as styles from './Graphs.scss';
