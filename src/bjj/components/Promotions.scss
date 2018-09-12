@@ -22,13 +22,20 @@
 
     > * {
         flex-grow: 1;
-        height: 3.5em;
-        padding: 8px;
+        height: 4em;
 
         // children props
         display: flex;
         align-items: center;
         justify-content: center;
+
+        > div:last-of-type {
+            height: 100%;
+            background: #2c3e50;
+            width: 1em;
+            margin: 0 4em;
+            border-radius: 10%;
+        }
     }
 
     .white {

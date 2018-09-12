@@ -9,7 +9,7 @@ interface IPromotionsProps {
 export default function Promotions({}: IPromotionsProps) {
     return (
         <div className={styles.root}>
-            <div className={styles.white}>Test</div>
+            <div className={styles.white}><div>4mo3days</div><div></div></div>
             <div className={styles.blue}><Lock /></div>
             <div className={styles.purple}><Lock /></div>
             <div className={styles.brown}><Lock /></div>

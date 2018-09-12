@@ -40,6 +40,7 @@ export interface IBjjPromotion {
     date: string;
     timeItTook: string;
     hoursItTook: number;
+    isNextPromotion?: boolean;
 }
 
 export interface IBjjOverviewStats {
