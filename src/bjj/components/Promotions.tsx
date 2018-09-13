@@ -25,34 +25,37 @@ function TapeAndStripes({promotions, color}: {promotions: IBjjPromotion[]; color
     );
 }
 
-export default function Promotions({promotions}: IPromotionsProps) {
-    if (promotions.length <= 1)
-        return null;
+export default class Promotions extends React.PureComponent<IPromotionsProps> {
+    render() {
+        const { promotions } = this.props;
+        if (promotions.length <= 1)
+            return null;
 
-    const currentBelt = promotions[promotions.length - 2].color;
-    const isColor = (color: BjjBelt) => currentBelt === color;
-    return (
-        <div className={styles.root}>
-            <div className={cx(styles.white, {[styles.selected]: isColor(BjjBelt.White)})}>
-                <span>White Belt</span>
-                <TapeAndStripes promotions={promotions} color={BjjBelt.White} />
+        const currentBelt = promotions[promotions.length - 2].color;
+        const isColor = (color: BjjBelt) => currentBelt === color;
+        return (
+            <div className={styles.root}>
+                <div className={cx(styles.white, {[styles.selected]: isColor(BjjBelt.White)})}>
+                    <span>White Belt</span>
+                    <TapeAndStripes promotions={promotions} color={BjjBelt.White} />
+                </div>
+                <div className={cx(styles.blue, {[styles.selected]: isColor(BjjBelt.Blue)})}>
+                    <span>Blue Belt</span>
+                    <TapeAndStripes promotions={promotions} color={BjjBelt.Blue} />
+                </div>
+                <div className={cx(styles.purple, {[styles.selected]: isColor(BjjBelt.Purple)})}>
+                    <span>Purple Belt</span>
+                    <TapeAndStripes promotions={promotions} color={BjjBelt.Purple} />
+                </div>
+                <div className={cx(styles.brown, {[styles.selected]: isColor(BjjBelt.Brown)})}>
+                    <span>Brown Belt</span>
+                    <TapeAndStripes promotions={promotions} color={BjjBelt.Brown} />
+                </div>
+                <div className={cx(styles.black, {[styles.selected]: isColor(BjjBelt.Black)})}>
+                    <span>Black Belt</span>
+                    <TapeAndStripes promotions={promotions} color={BjjBelt.Black} />
+                </div>
             </div>
-            <div className={cx(styles.blue, {[styles.selected]: isColor(BjjBelt.Blue)})}>
-                <span>Blue Belt</span>
-                <TapeAndStripes promotions={promotions} color={BjjBelt.Blue} />
-            </div>
-            <div className={cx(styles.purple, {[styles.selected]: isColor(BjjBelt.Purple)})}>
-                <span>Purple Belt</span>
-                <TapeAndStripes promotions={promotions} color={BjjBelt.Purple} />
-            </div>
-            <div className={cx(styles.brown, {[styles.selected]: isColor(BjjBelt.Brown)})}>
-                <span>Brown Belt</span>
-                <TapeAndStripes promotions={promotions} color={BjjBelt.Brown} />
-            </div>
-            <div className={cx(styles.black, {[styles.selected]: isColor(BjjBelt.Black)})}>
-                <span>Black Belt</span>
-                <TapeAndStripes promotions={promotions} color={BjjBelt.Black} />
-            </div>
-        </div>
-    );
+        );
+    }
 }

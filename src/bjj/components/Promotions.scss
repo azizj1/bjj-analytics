@@ -15,11 +15,16 @@
             fill: $fg;
         }
     }
+
+    > div::after {
+        background: $bg;
+    }
 }
 
-$beltTape: #2f3542;
-
 .root {
+    $beltTape: #2f3542;
+    $borderRadius: 4px;
+
     display: flex;
     margin-top: 50px;
 
@@ -46,14 +51,27 @@ $beltTape: #2f3542;
             background: $beltTape;
             width: 80%;
             margin: 0 auto 0 3em;
-            border-radius: 5px;
+            border-top-left-radius: $borderRadius;
+            border-bottom-left-radius: $borderRadius;
+
+            &::after {
+                content: ' ';
+                margin: 0 0 0 auto;
+                height: 100%;
+                width: 0.5em;
+                border-top-left-radius: $borderRadius;
+                border-bottom-left-radius: $borderRadius;
+            }
 
             > div.stripe {
                 height: 100%;
-                width: 3em;
+                width: 3.5em;
                 background: #fff;
                 margin-left: 1em;
                 border: 0.1px solid #ddd;
+                border-radius: $borderRadius;
+
+                display: flex;
 
                 &.lockedStripe {
                     @include bg-fg-contrast(#eee);
@@ -61,6 +79,16 @@ $beltTape: #2f3542;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                }
+
+                &::after {
+                    content: ' ';
+                    margin: 0 0 0 auto;
+                    height: 100%;
+                    width: 0.5em;
+                    background: $beltTape;
+                    border-top-left-radius: $borderRadius;
+                    border-bottom-left-radius: $borderRadius;
                 }
             }
 
@@ -92,8 +120,12 @@ $beltTape: #2f3542;
     }
 
     .white {
-        background-color: #f8f8f8;
+        background-color: #eee;
         border: 0.1px solid #ddd;
+
+        > div::after {
+            background: #eee;
+        }
     }
 
     .blue {

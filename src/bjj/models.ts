@@ -107,3 +107,20 @@ export interface IDaysOfWeekAgg {
     afternoon: IDayOfWeekPoint[];
     evening: IDayOfWeekPoint[];
 }
+
+export enum BjjPageSectionType {
+    Header,
+    Overview,
+    Promotions,
+    WeeklyHours,
+    ClassType,
+    ClassTime,
+    DayOfWeek
+}
+
+export interface IBjjPageSection {
+    type: BjjPageSectionType;
+    name?: string;
+    divider?: boolean;
+    selected?: boolean;
+}

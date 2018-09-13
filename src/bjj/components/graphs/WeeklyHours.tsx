@@ -15,55 +15,57 @@ const colors = [
     '#2ecc71'
 ];
 
-export default function WeeklyHours({stats, statsSma}: IWeeklyHoursProps) {
-    const lineOptions = {
-        ...baseOptions,
-        series: [{
-            name: 'Weekly Hours',
-            color: colors[0],
-            data: stats,
-            type: 'column'
-        }, {
-            name: 'Moving Average',
-            color: colors[1],
-            data: statsSma,
-            type: 'spline'
-        }],
-        plotOptions: {
-            spline: {
-                lineWidth: 1.5,
-                // enableMouseTracking: false,
-                marker: {
-                    enabled: false
-                },
-                dashStyle: 'dash'
+export default class WeeklyHours extends React.PureComponent<IWeeklyHoursProps> {
+    render() {
+        const { stats, statsSma } = this.props;
+        const lineOptions = {
+            ...baseOptions,
+            series: [{
+                name: 'Weekly Hours',
+                color: colors[0],
+                data: stats,
+                type: 'column'
+            }, {
+                name: 'Moving Average',
+                color: colors[1],
+                data: statsSma,
+                type: 'spline'
+            }],
+            plotOptions: {
+                spline: {
+                    lineWidth: 1.5,
+                    marker: {
+                        enabled: false
+                    },
+                    dashStyle: 'dash'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Hours'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                formatter: function() {
+                    return `<span style="font-size: 10px">${this.point.options.week}</span><br/>` +
+                    `<span style="color:${this.color}">\u25CF</span>` +
+                        ` ${this.series.name}: <b>${this.y}hrs</b><br/>`;
+                }
             }
-        },
-        yAxis: {
-            title: {
-                text: 'Hours'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            formatter: function() {
-                return `<span style="font-size: 10px">${this.point.options.week}</span><br/>` +
-                `<span style="color:${this.color}">\u25CF</span>` +
-                    ` ${this.series.name}: <b>${this.y}hrs</b><br/>`;
-            }
-        }
-    } as Highcharts.Options;
+        } as Highcharts.Options;
 
-    return (
-        <div>
-            <h3>Weekly hours over Time</h3>
-            <div className={styles.graphs}>
-                <div className={styles.lineFull}>
-                    <HighchartsReact highcharts={Highcharts} options={lineOptions} />
+        return (
+            <div className={styles.root}>
+                <h3>Weekly hours over Time</h3>
+                <div className={styles.graphs}>
+                    <div className={styles.lineFull}>
+                        <HighchartsReact highcharts={Highcharts} options={lineOptions} />
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
