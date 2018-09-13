@@ -39,7 +39,8 @@ export default class DayOfWeek extends React.PureComponent<IDayOfWeekProps> {
                 }
             },
             tooltip: {
-                valueSuffix: 'hrs'
+                valueSuffix: 'hrs',
+                shared: true
             },
             plotOptions: {
                 column: {
