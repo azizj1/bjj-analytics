@@ -89,8 +89,7 @@ module.exports = function (env) {
     const config = {
         mode: DEBUG ? 'development' : 'production',
         entry: {
-            'lib': vendors,
-            'main': './src/main'
+            'main': [...vendors, './src/main']
         },
         output: {
             path: BUILD_DIR,

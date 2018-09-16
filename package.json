@@ -7,7 +7,8 @@
     "start": "webpack-dev-server --open",
     "build": "webpack --env dev",
     "deploy": "webpack --env dev && gh-pages -d build -r https://github.com/azizj1/dev-azizj1.git -b master",
-    "deploy-prod": "webpack --env prod && gh-pages -d build -r https://github.com/azizj1/azizj1.git -b master"
+    "deploy-prod": "webpack --env prod && gh-pages -d build -r https://github.com/azizj1/azizj1.git -b master",
+    "analyze": "webpack --env dev --profile --json > .stats.json && webpack-bundle-analyzer .stats.json build/"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,6 @@
     "classnames": "^2.2.6",
     "highcharts": "^6.1.2",
     "highcharts-react-official": "^1.4.0",
-    "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.21",
     "react": "^16.4.2",
@@ -81,6 +81,7 @@
     "typescript": "^3.0.3",
     "url-loader": "^1.1.1",
     "webpack": "^4.17.1",
+    "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.7"
   }

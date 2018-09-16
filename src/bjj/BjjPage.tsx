@@ -27,6 +27,7 @@ import Promotions from '~/bjj/components/Promotions';
 import getDayOfWeekAgg from '~/bjj/selectors/getDayOfWeekAgg';
 import DayOfWeek from '~/bjj/components/graphs/DayOfWeek';
 import WeeklyHours from '~/bjj/components/graphs/WeeklyHours';
+import Footer from '~/shared/components/Footer';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
 
@@ -136,6 +137,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                         {loading && <div className={styles.loader}><PulseLoader /></div>}
                         {hasError && <Alert type='danger' message={errorMessage} className={styles.error} />}
                         {!loading && !hasError && this.renderGraphs()}
+                        {!loading && !hasError && <Footer />}
                     </div>
                 </div>
             </div>

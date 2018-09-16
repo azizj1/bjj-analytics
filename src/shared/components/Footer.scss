@@ -1,0 +1,17 @@
+@import 'variables';
+
+.root {
+    text-align: center;
+    margin: 50px 0 10px 0;
+    font-size: 0.85em;
+    position: relative;
+
+    > span {
+        margin: 0 0.5em;
+    }
+
+    > a {
+        text-decoration: none;
+        color: #3498db;
+    }
+}
