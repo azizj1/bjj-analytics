@@ -30,6 +30,7 @@ import WeeklyHours from '~/bjj/components/graphs/WeeklyHours';
 import Footer from '~/shared/components/Footer';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
+import ClassList from '~/bjj/components/ClassList';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;
@@ -137,6 +138,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                         {loading && <div className={styles.loader}><PulseLoader /></div>}
                         {hasError && <Alert type='danger' message={errorMessage} className={styles.error} />}
                         {!loading && !hasError && this.renderGraphs()}
+                        {!loading && !hasError && this.renderTable()}
                         {!loading && !hasError && <Footer />}
                     </div>
                 </div>
@@ -178,6 +180,12 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                 ref={this.classTimeRef} />,
             <DayOfWeek key='5' stats={dayOfWeekAgg} ref={this.dayOfWeekRef} />
         ];
+    }
+
+    renderTable() {
+        if (this.props.stats == null) return null;
+        const { stats: { classes }} = this.props;
+        return <ClassList {...{classes}} />;
     }
 
     toggleMenu = () => this.setState(({menuVisible}) => ({menuVisible: !menuVisible}));

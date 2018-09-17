@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const endpoints = require('./endpoints');
 const cnames = require('./cnames');
 
@@ -220,7 +221,8 @@ module.exports = function (env) {
                 { from: 'public/', to: BUILD_DIR }
             ], { ignore: ['node_modules/**/*', 'build/**/*']}),
             ...DEBUG ? [] : [
-                new CreateFilePlugin(CREATE_FILE_CONFIG)
+                new CreateFilePlugin(CREATE_FILE_CONFIG),
+                new CompressionPlugin()
             ]
         ],
         optimization: {

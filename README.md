@@ -24,6 +24,10 @@ Kick off watcher with hot-reload
 ```
 yarn start
 ```
+To analyze webpack bundle and dependencies, run
+```
+yarn analyze
+```
 
 ## Deployment
 The website is deployed to [dev.azizj1.com](dev.azizj1.com) and [azizj1.com](www.azizj1.com) using [GitHub Pages](https://pages.github.com/).

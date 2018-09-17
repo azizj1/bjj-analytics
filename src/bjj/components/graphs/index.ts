@@ -52,6 +52,7 @@ export const baseOptions = {
 } as Highcharts.Options;
 
 const isPieSeries = (x: number) => x == null;
+export const formatDate = (date: string) => moment.tz(date, 'America/Chicago').format('dddd, MMM Do, h:mma');
 
 export function tooltipFormatter() {
     if (isPieSeries(this.x)) {
@@ -59,7 +60,7 @@ export function tooltipFormatter() {
         `<span style="color:${this.color}">\u25CF</span>` +
             `<b>${this.y}hrs</b> (${Math.round(this.percentage)}%)<br/>`;
     }
-    const key = moment.tz(this.key, 'America/Chicago').format('dddd, MMM Do, h:mma');
+    const key = formatDate(this.key);
     return `<span style="font-size: 10px">${key}</span><br/>` +
         `<span style="color:${this.color}">\u25CF</span>` +
             ` ${this.series.name}: <b>${this.y}hrs</b> cumulative<br/>`;

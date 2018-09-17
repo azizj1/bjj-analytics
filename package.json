@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/azizj1/bjj-analytics#readme",
   "dependencies": {
+    "@material-ui/core": "^3.0.3",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "highcharts": "^6.1.2",
@@ -60,6 +61,7 @@
     "babel-loader": "^8.0.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.15",
     "clean-webpack-plugin": "^0.1.19",
+    "compression-webpack-plugin": "^2.0.0",
     "copy-webpack-plugin": "^4.5.2",
     "create-file-webpack": "^1.0.0",
     "css-loader": "^1.0.0",
