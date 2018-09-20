@@ -7,7 +7,12 @@ resource "aws_route53_record" "github_ips" {
     type = "A"
     zone_id = "${data.aws_route53_zone.main.zone_id}"
     ttl = 300
-    records = ["192.30.252.153", "192.30.252.154"]
+    records = [
+        "185.199.108.153",
+        "185.199.109.153",
+        "185.199.110.153",
+        "185.199.111.153"
+    ]
 }
 
 resource "aws_route53_record" "dev_cname" {

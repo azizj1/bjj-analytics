@@ -1,8 +1,8 @@
 # BJJ Analytics
-React web app that uses [Highcharts](https://www.highcharts.com/) to display useful metrics and graphs, using endpoints from [Google Calendar Analytics](https://0jhkh4pn4b.execute-api.us-east-1.amazonaws.com/prod/docs/) to get the data.
+React web app that uses [Highcharts](https://www.highcharts.com/) to display useful metrics and graphs, using endpoints from [Google Calendar Analytics](https://api.azizj1.com/docs/) to get the data.
 
 ## Demo
-The production version is live at [www.azizj1.com](www.azizj1.com). Dev version is at [dev.azizj1.com](dev.azizj1.com).
+The production version is live at [www.azizj1.com](https://www.azizj1.com). Dev version is at [dev.azizj1.com](https://dev.azizj1.com).
 
 ## Getting Started
 This repo is a client for the analytics API, so it necessitates a couple of prerequisites.
@@ -30,7 +30,7 @@ yarn analyze
 ```
 
 ## Deployment
-The website is deployed to [dev.azizj1.com](dev.azizj1.com) and [azizj1.com](www.azizj1.com) using [GitHub Pages](https://pages.github.com/).
+The website is deployed to [dev.azizj1.com](https://dev.azizj1.com) and [azizj1.com](https://www.azizj1.com) using [GitHub Pages](https://pages.github.com/).
 
 ### Prerequisites
 Setup GitHub Pages:
@@ -49,7 +49,7 @@ Setup GitHub Pages:
     ```
     It'll prompt you for
     1. The S3 bucket to store the state file (if you decided to use remote state files), 
-    2. Your domain name (e.g., azizj1.com, google.com, etc.). You **must** have a Route53 zone already created for this zone.
+    2. Your domain name (e.g., azizj1.com, google.com, etc.). You **must** have a Route53 zone already created for this domain.
 
 5. Update `./cnames.js` with your custom domain.
 
