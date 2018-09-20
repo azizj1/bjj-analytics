@@ -8,7 +8,8 @@
     "build": "webpack --env dev",
     "deploy": "webpack --env dev && gh-pages -d build -r https://github.com/azizj1/dev-azizj1.git -b master",
     "deploy-prod": "webpack --env prod && gh-pages -d build -r https://github.com/azizj1/azizj1.git -b master",
-    "analyze": "webpack --env dev --profile --json > .stats.json && webpack-bundle-analyzer .stats.json build/"
+    "analyze": "webpack --env dev --profile --json > .stats.json && webpack-bundle-analyzer .stats.json build/",
+    "custom-domain": "cd terraform && ./setup_custom_domain.sh && cd .."
   },
   "repository": {
     "type": "git",

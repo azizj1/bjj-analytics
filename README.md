@@ -41,8 +41,17 @@ Setup GitHub Pages:
 4. Configure your custom domain's DNS to route to Github Pages.
 
     ![Example of DNS](./docs/dns-config.png)
+    
+    **Note**: If your DNS is managed by Route53, you have profile `aws-cli` setup so it can at least query Route53 zones, create Route53 records, and write to S3 (terraform state file. If you don't want to use a remote state file, comment out `terraform { ...}` in `./terraform/config.tf`) run
 
-4. Update `./cnames.js` with your custom domain.
+    ```
+    yarn custom-domain
+    ```
+    It'll prompt you for
+    1. The S3 bucket to store the state file (if you decided to use remote state files), 
+    2. Your domain name (e.g., azizj1.com, google.com, etc.). You **must** have a Route53 zone already created for this zone.
+
+5. Update `./cnames.js` with your custom domain.
 
 Server setup:
 1. Deploy [analytics API](https://github.com/azizj1/google-calendar-analytics) to dev/prod.
