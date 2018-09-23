@@ -47,9 +47,15 @@ Setup GitHub Pages:
     ```
     yarn custom-domain
     ```
+    on macOS, or
+    ```
+    yarn custom-domain-win
+    ```
+    for Windows.
+
     It'll prompt you for
     1. The S3 bucket to store the state file (if you decided to use remote state files), 
-    2. Your domain name (e.g., azizj1.com, google.com, etc.). You **must** have a Route53 zone already created for this domain.
+    2. Your domain name (e.g., azizj1.com, google.com, etc.). You **must** have a Route53 zone already created for this domain, and update your domain's nameservers to the zone's nameservers.
 
 5. Update `./cnames.js` with your custom domain.
 

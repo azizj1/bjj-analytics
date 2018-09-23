@@ -9,7 +9,8 @@
     "deploy": "webpack --env dev && gh-pages -d build -r https://github.com/azizj1/dev-azizj1.git -b master",
     "deploy-prod": "webpack --env prod && gh-pages -d build -r https://github.com/azizj1/azizj1.git -b master",
     "analyze": "webpack --env dev --profile --json > .stats.json && webpack-bundle-analyzer .stats.json build/",
-    "custom-domain": "cd terraform && ./setup_custom_domain.sh && cd .."
+    "custom-domain": "cd terraform && ./setup_custom_domain.sh && cd ..",
+    "custom-domain-win": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./terraform/setup_custom_domain.ps1"
   },
   "repository": {
     "type": "git",
