@@ -8,29 +8,35 @@ import {
     IDaysOfWeekAgg,
     BjjBelt,
     BjjPageSectionType,
-    IBjjPageSection
+    IBjjPageSection,
+    IBjjClass,
+    IBjjPageFilters
 } from '~/bjj/models';
+import {
+    getClasses,
+    getClassTypesSeries,
+    getClassTimeSeries,
+    getWeeklyHours,
+    getWeeklyHoursSma,
+    getDayOfWeekAgg
+} from '~/bjj/selectors';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
+import { filter } from '~/bjj/actions/filter';
 import { connect } from 'react-redux';
 import PulseLoader from '~/shared/components/loaders/PulseLoader';
 import Alert from '~/shared/components/Alert';
 import SideMenu from '~/shared/components/SideMenu';
-import getClassTypesSeries from '~/bjj/selectors/getClassTypesSeries';
 import BjjClassType from '~/bjj/components/graphs/BjjClassType';
-import getClassTimeSeries from '~/bjj/selectors/getClassTimeSeries';
 import BjjClassTimes from '~/bjj/components/graphs/BjjClassTimes';
-import getWeeklyHours from '~/bjj/selectors/getWeeklyHours';
-import getWeeklyHoursSma from '~/bjj/selectors/getWeeklyHoursSma';
 import Overview from '~/bjj/components/Overview';
 import Promotions from '~/bjj/components/Promotions';
-import getDayOfWeekAgg from '~/bjj/selectors/getDayOfWeekAgg';
 import DayOfWeek from '~/bjj/components/graphs/DayOfWeek';
 import WeeklyHours from '~/bjj/components/graphs/WeeklyHours';
 import Footer from '~/shared/components/Footer';
+import ClassList from '~/bjj/components/ClassList';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
-import ClassList from '~/bjj/components/ClassList';
 
 interface IBjjPageStateProps {
     stats: IBjjStats;
@@ -42,37 +48,41 @@ interface IBjjPageStateProps {
     weeklyHours: IWeeklyHourPoint[];
     weeklyHoursSma: IWeeklyHourPoint[];
     dayOfWeekAgg: IDaysOfWeekAgg;
+    classes: IBjjClass[];
+    filters: IBjjPageFilters;
 }
 
 interface IBjjPageDispatchProps {
     getBjjStats(): void;
+    filter(filters: IBjjPageFilters): void;
 }
 
 type IBjjPageProps = IBjjPageStateProps & IBjjPageDispatchProps;
 
 function mapStateToProps(state: IState): IBjjPageStateProps {
-    const { stats, loading, error } = state.bjj;
+    const { stats, loading, error, filters } = state.bjj;
     const { message, hasError } = error;
     const bjjClassTypeSeries = getClassTypesSeries(state);
     const bjjClassTimeSeries = getClassTimeSeries(state);
     const weeklyHours = getWeeklyHours(state);
     const weeklyHoursSma = getWeeklyHoursSma(state);
     const dayOfWeekAgg = getDayOfWeekAgg(state);
+    const classes = getClasses(state);
     return {
-        stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours,
+        stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, classes, filters,
         weeklyHoursSma, dayOfWeekAgg, errorMessage: message
     };
 }
 
 const mapDispatchToProps = {
-    getBjjStats
+    getBjjStats,
+    filter
 };
 
 const initialPageSectionsState: IBjjPageSection[] = [{
     type: BjjPageSectionType.Header
 }, {
-    type: BjjPageSectionType.Overview,
-    selected: true
+    type: BjjPageSectionType.Overview
 }, {
     type: BjjPageSectionType.WeeklyHours,
     name: 'Weekly Hours'
@@ -89,6 +99,8 @@ const initialPageSectionsState: IBjjPageSection[] = [{
     type: BjjPageSectionType.DayOfWeek,
     name: 'Day of Week',
     divider: true
+}, {
+    type: BjjPageSectionType.Classes
 }];
 
 interface IBjjPageState {
@@ -104,6 +116,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     private classTypeRef: React.RefObject<BjjClassType>;
     private classTimeRef: React.RefObject<BjjClassTimes>;
     private dayOfWeekRef: React.RefObject<DayOfWeek>;
+    private classesRef: React.RefObject<ClassList>;
 
     constructor(props: IBjjPageProps) {
         super(props);
@@ -118,6 +131,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
         this.classTypeRef = React.createRef();
         this.classTimeRef = React.createRef();
         this.dayOfWeekRef = React.createRef();
+        this.classesRef = React.createRef();
     }
     componentWillMount() {
         this.props.getBjjStats();
@@ -147,15 +161,9 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     }
 
     renderGraphs() {
-        if (this.props.stats == null) return null;
-        const {
-            bjjClassTypeSeries,
-            bjjClassTimeSeries,
-            weeklyHours,
-            weeklyHoursSma,
-            dayOfWeekAgg,
-            stats
-        } = this.props;
+        const { loading, hasError } = this.props;
+        if (loading || hasError) return null;
+        const { bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, weeklyHoursSma, dayOfWeekAgg, stats } = this.props;
         const {
             typeBreakdown: {giHours, noGiHours},
             timeBreakdown: {morningHours, afternoonHours, eveningHours},
@@ -183,9 +191,10 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     }
 
     renderTable() {
-        if (this.props.stats == null) return null;
-        const { stats: { classes }} = this.props;
-        return <ClassList {...{classes}} />;
+        const { loading, hasError } = this.props;
+        if (loading || hasError) return null;
+        const { classes, filters, filter } = this.props;
+        return <ClassList {...{classes, filter, filters}} ref={this.classesRef} />;
     }
 
     toggleMenu = () => this.setState(({menuVisible}) => ({menuVisible: !menuVisible}));
@@ -193,7 +202,8 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     handleContentClick = () => this.state.menuVisible && this.toggleMenu();
 
     currentRank() {
-        if (this.props.stats == null)
+        const { loading, hasError } = this.props;
+        if (loading || hasError)
             return '...';
         const { stats: { promotions }} = this.props;
         if (promotions.length <= 1)
@@ -224,6 +234,9 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                 break;
             case BjjPageSectionType.DayOfWeek:
                 window.scrollTo(0, (ReactDOM.findDOMNode(this.dayOfWeekRef.current) as any).offsetTop - 50);
+                break;
+            case BjjPageSectionType.Classes:
+                window.scrollTo(0, (ReactDOM.findDOMNode(this.classesRef.current) as any).offsetTop - 50);
                 break;
         }
     }

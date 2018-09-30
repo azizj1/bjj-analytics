@@ -4,7 +4,7 @@ import { getWeeklyHoursWithKey } from '~/bjj/selectors/getWeeklyHours';
 
 const period = 4;
 
-const getWeeklyHoursSma = createSelector(
+export const getWeeklyHoursSma = createSelector(
 	getWeeklyHoursWithKey,
 	weeklyHours => weeklyHours.reduce((acc, curr, index) => {
 		if (index % period === 0)
@@ -22,5 +22,3 @@ const getWeeklyHoursSma = createSelector(
 		return acc;
 	}, [] as IWeeklyHourPoint[])
 );
-
-export default getWeeklyHoursSma;

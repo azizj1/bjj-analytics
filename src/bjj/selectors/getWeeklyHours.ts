@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
-import { getClasses } from '~/bjj/selectors';
+import { getAllClasses } from '~/bjj/selectors/util';
 import { IBjjWeeklyHours, IWeeklyHourPoint } from '~/bjj/models';
 import * as moment from 'moment';
 
 export const getWeeklyHoursWithKey = createSelector(
-    getClasses,
-    classes => classes.filter(c => !c.isAllDay).reduce((acc, curr) => {
+    getAllClasses,
+    classes => classes.reduce((acc, curr) => {
         let last = acc.pop();
         const start = moment.parseZone(curr.start, moment.ISO_8601, true);
         if (last == null)
@@ -37,9 +37,7 @@ const weeklyHour = (hours: number, datetime: moment.Moment) => ({
     weekKey: weekKey(datetime)
 });
 
-const getWeeklyHours = createSelector(
+export const getWeeklyHours = createSelector(
     getWeeklyHoursWithKey,
     hours => hours.map(h => ({x: h.startTime, y: h.hours, week: h.week})) as IWeeklyHourPoint[]
 );
-
-export default getWeeklyHours;

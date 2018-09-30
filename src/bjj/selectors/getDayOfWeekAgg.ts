@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
-import { getClasses } from '~/bjj/selectors';
+import { getAllClasses } from '~/bjj/selectors/util';
 import * as moment from 'moment';
 import { IDayOfWeekPoint, IBjjClass, BjjClassTime } from '~/bjj/models';
 
-const getDayOfWeekAgg = createSelector(
-    getClasses,
+export const getDayOfWeekAgg = createSelector(
+    getAllClasses,
     classes => ({
         morning: daysOfWeek(classes.filter(c => c.classTime === BjjClassTime.Morning)),
         afternoon: daysOfWeek(classes.filter(c => c.classTime === BjjClassTime.Afternoon)),
@@ -48,6 +48,3 @@ export const initial = () => ({
     6: { x: days[5], y: 0, week: 6},
     7: { x: days[6], y: 0, week: 7}
 } as {[key: number]: IDayOfWeekPoint});
-
-
-export default getDayOfWeekAgg;

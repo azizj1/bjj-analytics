@@ -24,6 +24,8 @@ export interface IBjjClass extends ICalendarEvent {
     classTime: BjjClassTime;
     type: BjjClassType;
     level: BjjClassLevel;
+    taughtBy: string;
+    notesTldr: string;
 }
 
 export enum BjjBelt {
@@ -115,7 +117,8 @@ export enum BjjPageSectionType {
     WeeklyHours,
     ClassType,
     ClassTime,
-    DayOfWeek
+    DayOfWeek,
+    Classes
 }
 
 export interface IBjjPageSection {
@@ -123,4 +126,8 @@ export interface IBjjPageSection {
     name?: string;
     divider?: boolean;
     selected?: boolean;
+}
+
+export interface IBjjPageFilters {
+    query: string;
 }

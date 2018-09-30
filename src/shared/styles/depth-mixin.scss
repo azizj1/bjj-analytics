@@ -1,0 +1,54 @@
+@function depth-box-shadow-fn($layer, $tint: #000) {
+    $tint-shadow: desaturate(darken($tint, 20%), 30%);
+    $depth-box-shadow-map: (
+        'well': inset 0 3px 8px -2px rgba($tint-shadow, 0.16),
+        'base': none,
+        'flat': none,
+        'raised': 0 2px 7px -2px rgba($tint-shadow, 0.16),
+        'interactive': (
+            0 0 5px 0 rgba($tint-shadow, 0.16),
+            0 0 10px 0 rgba($tint-shadow, 0.12)
+        ),
+        'expressed': (
+            0 0 11px 0 rgba($tint-shadow, 0.18),
+            0 0 15px 0 rgba($tint-shadow, 0.15)
+        ),
+        'sticky': (
+            0 0 15px rgba($tint-shadow, 0.15)
+        ),
+        'temporary': (
+            0 0 18px rgba($tint-shadow, 0.2)
+        ),
+        'cover': (
+            0 0 23px rgba($tint-shadow, 0.25)
+        )
+    );
+    @return map-get($depth-box-shadow-map, $layer);
+}
+
+@function depth-z-index-fn($layer) {
+    $depth-z-index-map: (
+        'base': 1,
+        'flat': 100,
+        'raised': 200,
+        'sticky': 300,
+        'temporary': 400,
+        'overlay': 500,
+        'cover': 600
+    );
+    @return map-get($depth-z-index-map, $layer);
+}
+
+@mixin depth-box-shadow($layer, $tint: #000) {
+    box-shadow: depth-box-shadow-fn($layer, $tint);
+}
+
+@mixin depth-z-index($layer) {
+    z-index: depth-z-index-fn($layer);
+}
+
+@mixin depth($layer, $tint: #000) {
+    box-shadow: depth-box-shadow-fn($layer, $tint);
+    z-index: depth-z-index-fn($layer);
+}
+

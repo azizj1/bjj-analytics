@@ -1,0 +1,15 @@
+@import 'variables';
+
+.root {
+    overflow: hidden;
+    transition: height $motion-duration-transition $motion-timing-intro;
+
+    &.collapsed {
+        height: 0;
+    }
+
+    &.expanded {
+        height: auto;
+        overflow: visible;
+    }
+}

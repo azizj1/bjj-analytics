@@ -1,0 +1,276 @@
+@import 'variables';
+@import 'depth-mixin';
+
+:local {
+    $color-body: #f8f8f8;
+    $color-panel: #fff;
+    $base-measurement: 1rem;
+    $breakpoint-tablet-portrait: 45rem;
+    $color-type: #444;
+    $header-color: $color-body;
+    $border-color: darken($color-body, 10%);
+    $font-weight-emphasis: 600;
+    $hover-color: #ddd;
+
+    .row {
+        &:not(.isHeader) + .row {
+            margin-top: $base-measurement * 1.5;
+
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                margin-top: 0;
+                border-top: 1px solid $border-color;
+            }
+        }
+
+        > .mainRow {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: color $motion-duration-response $motion-timing-default,
+                background-color $motion-duration-response $motion-timing-default;
+
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            > .expandableContentButton,
+            > a.link {
+                color: $color-type;
+                font-weight: $font-weight-emphasis;
+                font-size: $font-size-min;
+                text-decoration: none;
+                cursor: pointer;
+                padding: $base-measurement * 0.5;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                border-top: 1px solid $border-color;
+                transition: color $motion-duration-response $motion-timing-default,
+                    background-color $motion-duration-response $motion-timing-default;
+
+                :global(.sicon) {
+                    transition: fill $motion-duration-response $motion-timing-default,
+                        transform $motion-duration-response $motion-timing-default;
+                    fill: $color-type;
+                }
+
+                @media screen and (min-width: $breakpoint-tablet-portrait) {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    border-top: none;
+                }
+            }
+
+            > a.link {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+        }
+
+        > .subRow > div {
+            background-color: $color-panel;
+            padding: $base-measurement;
+            opacity: 0;
+            transition: opacity $motion-duration-response $motion-timing-intro;
+            border: 1px solid $border-color;
+
+            @include depth('well');
+
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                padding-left: $base-measurement * 2;
+            }
+        }
+
+        &.isOpen {
+            > .mainRow > .expandableContentButton {
+                :global(.sicon) {
+                    transform: rotate(90deg);
+                }
+            }
+
+            > .subRow > div {
+                opacity: 1;
+            }
+
+            + .row {
+                border-top: none;
+            }
+        }
+
+        &.isExpandable {
+            > .mainRow {
+                > .expandableContentButton {
+                    &:hover {
+                        background-color: $hover-color;
+                        color: foreground-color($hover-color);
+
+                        :global(.sicon) {
+                            fill: foreground-color($hover-color);
+                        }
+                    }
+                }
+
+                @media screen and (min-width: $breakpoint-tablet-portrait) {
+                    &:hover {
+                        background-color: $hover-color;
+                        color: foreground-color($hover-color);
+                    }
+
+                    > .expandableContentButton {
+                        &:hover {
+                            background-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.hasLink {
+            > .mainRow {
+                > a.link {
+                    &:hover {
+                        background-color: $hover-color;
+                        color: foreground-color($hover-color);
+
+                        :global(.sicon) {
+                            fill: foreground-color($hover-color);
+                        }
+                    }
+                }
+
+                @media screen and (min-width: $breakpoint-tablet-portrait) {
+                    &:hover {
+                        background-color: $hover-color;
+                        color: foreground-color($hover-color);
+                    }
+
+                    > a.link {
+                        &:hover {
+                            background-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.isHeader {
+            display: none;
+
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                display: block;
+            }
+
+            > .mainRow {
+                border: 1px solid $border-color;
+                background: $header-color;
+                color: #666;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .pivotLabel {
+        flex: 1 1 auto;
+        padding: ($base-measurement * 0.5) $base-measurement;
+        background: $header-color;
+        color: #666;
+        font-weight: $font-weight-emphasis;
+        font-size: 0.95em;
+
+        @media screen and (min-width: $breakpoint-tablet-portrait) {
+            display: none;
+        }
+    }
+
+    .expandableContentLabel,
+    .linkLabel {
+        margin: 0 ($base-measurement * 0.25);
+
+        @media screen and (min-width: $breakpoint-tablet-portrait) {
+            display: none;
+        }
+    }
+
+    .cell {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+
+        // Ideally this could be just `flex: 1` (which should be equivalent to `flex: 1 1 0`)
+        // However, the flex-basis needs to be changed to `auto` when in a column layout to fix
+        // an IE10/11 issue where rows are calculated to be 0px tall when given a zero flex-basis.
+        // Also, IE10 interprets `flex: 1` as `flex: 1 0 0`, so we need to set flex-shrink.
+        flex: 1 1 auto;
+
+        + .cell {
+            border-top: 1px solid $border-color;
+
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                border: 0;
+            }
+        }
+
+        @media screen and (min-width: $breakpoint-tablet-portrait) {
+            // This reverts the flex-basis being set to auto in the column layout for IE10/11.
+            flex-basis: 0;
+
+            &:nth-child(even) {
+                background: transparent;
+            }
+        }
+
+        &.hideOnPivot {
+            display: none;
+
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                display: flex;
+            }
+        }
+
+        &.right > .cellContent {
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                text-align: right;
+            }
+        }
+
+        &.center > .cellContent {
+            @media screen and (min-width: $breakpoint-tablet-portrait) {
+                text-align: center;
+            }
+        }
+    }
+
+    .cellLabel,
+    .cellContent {
+        flex: 1 1 0;
+        flex-flow: column wrap;
+        padding: ($base-measurement * 0.5) $base-measurement;
+        font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Helvetica, sans-serif;
+        font-size: 0.9em;
+    }
+
+    .cellLabel {
+        font-weight: 600;
+
+        @media screen and (min-width: $breakpoint-tablet-portrait) {
+            display: none;
+        }
+    }
+
+    :global(.c-data-grid).hasExpandableContent > .row > .mainRow {
+        @media screen and (min-width: $breakpoint-tablet-portrait) {
+            padding-left: $base-measurement * 1.25;
+        }
+    }
+
+    :global(.c-data-grid).hasLinks > .row > .mainRow {
+        @media screen and (min-width: $breakpoint-tablet-portrait) {
+            padding-right: $base-measurement * 1.25;
+        }
+    }
+}
