@@ -10,7 +10,9 @@ import {
     BjjPageSectionType,
     IBjjPageSection,
     IBjjClass,
-    IBjjPageFilters
+    IBjjPageFilters,
+    IDataPoint,
+    IDictionary
 } from '~/bjj/models';
 import {
     getClasses,
@@ -18,7 +20,8 @@ import {
     getClassTimeSeries,
     getWeeklyHours,
     getWeeklyHoursSma,
-    getDayOfWeekAgg
+    getDayOfWeekAgg,
+    getInstructorsBreakdown
 } from '~/bjj/selectors';
 import { IState } from '~/shared/rootReducer';
 import { getBjjStats } from '~/bjj/actions/getStats';
@@ -35,6 +38,7 @@ import DayOfWeek from '~/bjj/components/graphs/DayOfWeek';
 import WeeklyHours from '~/bjj/components/graphs/WeeklyHours';
 import Footer from '~/shared/components/Footer';
 import ClassList from '~/bjj/components/ClassList';
+import InstructorBreakdown from '~/bjj/components/graphs/InstructorBreakdown';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
 
@@ -48,6 +52,7 @@ interface IBjjPageStateProps {
     weeklyHours: IWeeklyHourPoint[];
     weeklyHoursSma: IWeeklyHourPoint[];
     dayOfWeekAgg: IDaysOfWeekAgg;
+    instructorsBreakdown: IDictionary<IDataPoint[]>;
     classes: IBjjClass[];
     filters: IBjjPageFilters;
 }
@@ -68,9 +73,10 @@ function mapStateToProps(state: IState): IBjjPageStateProps {
     const weeklyHoursSma = getWeeklyHoursSma(state);
     const dayOfWeekAgg = getDayOfWeekAgg(state);
     const classes = getClasses(state);
+    const instructorsBreakdown = getInstructorsBreakdown(state);
     return {
         stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, classes, filters,
-        weeklyHoursSma, dayOfWeekAgg, errorMessage: message
+        weeklyHoursSma, dayOfWeekAgg, instructorsBreakdown, errorMessage: message
     };
 }
 
@@ -96,6 +102,8 @@ const initialPageSectionsState: IBjjPageSection[] = [{
     type: BjjPageSectionType.ClassTime,
     name: 'Time of Day'
 }, {
+    type: BjjPageSectionType.Instructors
+}, {
     type: BjjPageSectionType.DayOfWeek,
     name: 'Day of Week',
     divider: true
@@ -115,6 +123,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     private weeklyHoursRef: React.RefObject<WeeklyHours>;
     private classTypeRef: React.RefObject<BjjClassType>;
     private classTimeRef: React.RefObject<BjjClassTimes>;
+    private instructorsRef: React.RefObject<InstructorBreakdown>;
     private dayOfWeekRef: React.RefObject<DayOfWeek>;
     private classesRef: React.RefObject<ClassList>;
 
@@ -132,6 +141,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
         this.classTimeRef = React.createRef();
         this.dayOfWeekRef = React.createRef();
         this.classesRef = React.createRef();
+        this.instructorsRef = React.createRef();
     }
     componentWillMount() {
         this.props.getBjjStats();
@@ -145,7 +155,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                 <SideMenu {...{menuVisible, sections}} scrollTo={this.scrollTo} toggleVisibility={this.toggleMenu} />
                 <div onClick={this.handleContentClick}>
                     <div className={styles.header} ref={this.headerRef}>
-                        <h1>Jiu-Jitsu Analysis</h1>
+                        <h1>Jiu-Jitsu Journal</h1>
                         <h2>{this.currentRank()}</h2>
                     </div>
                     <div className={styles.content}>
@@ -163,7 +173,10 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     renderGraphs() {
         const { loading, hasError } = this.props;
         if (loading || hasError) return null;
-        const { bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, weeklyHoursSma, dayOfWeekAgg, stats } = this.props;
+        const {
+            bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, weeklyHoursSma, dayOfWeekAgg, instructorsBreakdown,
+            stats
+        } = this.props;
         const {
             typeBreakdown: {giHours, noGiHours},
             timeBreakdown: {morningHours, afternoonHours, eveningHours},
@@ -186,7 +199,8 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                 totalAfternoonHours={afternoonHours}
                 totalEveningHours={eveningHours}
                 ref={this.classTimeRef} />,
-            <DayOfWeek key='5' stats={dayOfWeekAgg} ref={this.dayOfWeekRef} />
+            <InstructorBreakdown key='5' stats={instructorsBreakdown} ref={this.instructorsRef} />,
+            <DayOfWeek key='6' stats={dayOfWeekAgg} ref={this.dayOfWeekRef} />
         ];
     }
 
@@ -237,6 +251,9 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                 break;
             case BjjPageSectionType.Classes:
                 window.scrollTo(0, (ReactDOM.findDOMNode(this.classesRef.current) as any).offsetTop - 50);
+                break;
+            case BjjPageSectionType.Instructors:
+                window.scrollTo(0, (ReactDOM.findDOMNode(this.instructorsRef.current) as any).offsetTop - 50);
                 break;
         }
     }

@@ -23,6 +23,8 @@ export const baseOptions = {
                 distance: -70,
                 color: 'white',
                 formatter: function() {
+                    if (this.percentage < 10)
+                        return '';
                     return `<div class='hcCenter'>` +
                         `<span>${this.point.name}</span><span>${this.y}hrs (${Math.round(this.percentage)}%)</span>`
                         + `</div>`;
@@ -34,6 +36,11 @@ export const baseOptions = {
                     return `<span style="color:${this.color}">\u25CF</span>` +
                         `<b>${this.y}</b>hrs (${Math.round(this.percentage)}%)<br/>`;
                 }
+            }
+        },
+        line: {
+            marker: {
+                enabled: false
             }
         }
     },

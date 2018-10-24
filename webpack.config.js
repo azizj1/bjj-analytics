@@ -76,6 +76,7 @@ module.exports = function (env) {
             '@babel/plugin-proposal-class-properties',
             '@babel/plugin-proposal-object-rest-spread', 
             '@babel/transform-runtime',
+            'lodash',
             ...DEBUG ? [] : [
                 'transform-react-remove-prop-types',
                 '@babel/plugin-transform-react-constant-elements'

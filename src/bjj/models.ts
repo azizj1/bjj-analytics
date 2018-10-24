@@ -117,6 +117,7 @@ export enum BjjPageSectionType {
     WeeklyHours,
     ClassType,
     ClassTime,
+    Instructors,
     DayOfWeek,
     Classes
 }
@@ -130,4 +131,8 @@ export interface IBjjPageSection {
 
 export interface IBjjPageFilters {
     query: string;
+}
+
+export interface IDictionary<T> {
+    [index: string]: T;
 }
