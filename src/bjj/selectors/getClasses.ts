@@ -6,10 +6,12 @@ import * as Fuse from 'fuse.js';
 import { IBjjClass } from '~/bjj/models';
 
 const fuseOptions = {
+    tokenize: true,
+    matchAllTokens: true,
     findAllMatches: true,
     threshold: 0.3,
     location: 0,
-    distance: 100,
+    distance: 5000,
     maxPatternLength: 32,
     minMatchCharLength: 1,
     keys: [
@@ -32,6 +34,6 @@ export const getClasses = createSelector(
     getFuse,
     getFilters,
     (classes, fuse, filters) => isEmpty(filters.query) ?
-        classes :
-        orderBy(fuse.search<IBjjClass>(filters.query), 'start', 'desc')
+            classes :
+            orderBy(fuse.search<IBjjClass>(filters.query), 'start', 'desc')
 );
