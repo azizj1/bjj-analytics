@@ -80,16 +80,6 @@
                     align-items: center;
                     justify-content: center;
                 }
-
-                &::after {
-                    content: ' ';
-                    margin: 0 0 0 auto;
-                    height: 100%;
-                    width: 0.5em;
-                    background: $beltTape;
-                    border-top-left-radius: $borderRadius;
-                    border-bottom-left-radius: $borderRadius;
-                }
             }
 
             > div.duration {
