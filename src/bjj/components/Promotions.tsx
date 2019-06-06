@@ -9,7 +9,8 @@ interface IPromotionsProps {
 }
 
 function TapeAndStripes({promotions, color}: {promotions: IBjjPromotion[]; color: BjjBelt}) {
-    const relevantPromotions = promotions.filter(c => c.color === color && c.stripes > 0);
+    const relevantPromotions = promotions
+        .filter(c => c.color === color && c.stripes > 0 || c.color === color + 1 && c.stripes === 0);
     if (relevantPromotions.length === 0)
         return <Lock />;
     return (
