@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { RouteComponentProps } from 'react-router';
 import {
     IBjjStats,
     IBjjClassTypeSeries,
@@ -39,6 +40,7 @@ import WeeklyHours from '~/bjj/components/graphs/WeeklyHours';
 import Footer from '~/shared/components/Footer';
 import ClassList from '~/bjj/components/ClassList';
 import InstructorBreakdown from '~/bjj/components/graphs/InstructorBreakdown';
+import * as queryString from 'query-string';
 import * as cx from 'classnames';
 import * as styles from './BjjPage.scss';
 
@@ -55,6 +57,7 @@ interface IBjjPageStateProps {
     instructorsBreakdown: IDictionary<IDataPoint[]>;
     classes: IBjjClass[];
     filters: IBjjPageFilters;
+    showClasses?: boolean;
 }
 
 interface IBjjPageDispatchProps {
@@ -62,9 +65,11 @@ interface IBjjPageDispatchProps {
     filter(filters: IBjjPageFilters): void;
 }
 
-type IBjjPageProps = IBjjPageStateProps & IBjjPageDispatchProps;
+type IBjjPageOwnProps = RouteComponentProps<{}>;
 
-function mapStateToProps(state: IState): IBjjPageStateProps {
+type IBjjPageProps = IBjjPageStateProps & IBjjPageDispatchProps & IBjjPageOwnProps;
+
+function mapStateToProps(state: IState, ownProps: IBjjPageOwnProps): IBjjPageStateProps {
     const { stats, loading, error, filters } = state.bjj;
     const { message, hasError } = error;
     const bjjClassTypeSeries = getClassTypesSeries(state);
@@ -74,9 +79,11 @@ function mapStateToProps(state: IState): IBjjPageStateProps {
     const dayOfWeekAgg = getDayOfWeekAgg(state);
     const classes = getClasses(state);
     const instructorsBreakdown = getInstructorsBreakdown(state);
+    const query = queryString.parse(ownProps.location.search);
     return {
         stats, loading, hasError, bjjClassTypeSeries, bjjClassTimeSeries, weeklyHours, classes, filters,
-        weeklyHoursSma, dayOfWeekAgg, instructorsBreakdown, errorMessage: message
+        weeklyHoursSma, dayOfWeekAgg, instructorsBreakdown, errorMessage: message,
+        showClasses: query && !!query.showClasses || false
     };
 }
 
@@ -131,7 +138,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
         super(props);
         this.state = {
             menuVisible: false,
-            sections: initialPageSectionsState
+            sections: initialPageSectionsState.filter(i => props.showClasses || i.type !== BjjPageSectionType.Classes)
         };
         this.headerRef = React.createRef();
         this.overviewRef = React.createRef();
@@ -148,7 +155,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
     }
 
     render() {
-        const { loading, hasError, errorMessage } = this.props;
+        const { loading, hasError, errorMessage, showClasses } = this.props;
         const { menuVisible, sections } = this.state;
         return (
             <div className={cx(styles.root, {[styles.active]: menuVisible})}>
@@ -162,7 +169,7 @@ export class BjjPage extends React.PureComponent<IBjjPageProps, IBjjPageState> {
                         {loading && <div className={styles.loader}><PulseLoader /></div>}
                         {hasError && <Alert type='danger' message={errorMessage} className={styles.error} />}
                         {!loading && !hasError && this.renderGraphs()}
-                        {!loading && !hasError && this.renderTable()}
+                        {!loading && !hasError && showClasses && this.renderTable()}
                         {!loading && !hasError && <Footer />}
                     </div>
                 </div>
