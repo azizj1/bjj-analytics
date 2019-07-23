@@ -156,7 +156,7 @@ module.exports = function (env) {
                 },
                 {
                     test: /\.css$/,
-                    include: /(vendor|node_modules\/react-select|node_modules\/rc-slider)/,
+                    include: /(vendor|node_modules[\\\/]react-select|node_modules[\\\/]rc-slider)/,
                     use: [
                         DEBUG ? 'style-loader' : MiniCssExtractPlugin.loader,
                         {
