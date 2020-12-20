@@ -37,7 +37,7 @@ async function apiErrorDetails(error: ApiError): Promise<{code: ApiErrorCode, de
 
 interface IHandledError {
     type: string;
-    payload: IErrorPayload;
+    payload?: IErrorPayload;
 }
 
 function errorHandled(type: string, code: ApiErrorCode, details?: any): IHandledError {

@@ -17,7 +17,6 @@ const STYLELINT_CONFIG = {
     syntax: 'scss'
 };
 const BUILD_DIR = path.join(__dirname, 'build');
-const BROWSERS_LIST = require('./postcss.config').plugins.autoprefixer.browsers;
 
 const STATS = {
     colors: true,
@@ -70,11 +69,11 @@ module.exports = function (env) {
     const BABEL_CONFIG = {
         babelrc: false,
         presets: [
-            '@babel/react', 
-            ['@babel/env', { 'targets': { 'browsers': BROWSERS_LIST } }]],
+            '@babel/react',
+            ['@babel/env']],
         plugins: [
             '@babel/plugin-proposal-class-properties',
-            '@babel/plugin-proposal-object-rest-spread', 
+            '@babel/plugin-proposal-object-rest-spread',
             '@babel/transform-runtime',
             'lodash',
             ...DEBUG ? [] : [
@@ -82,7 +81,7 @@ module.exports = function (env) {
                 '@babel/plugin-transform-react-constant-elements'
             ]
         ],
-        cacheDirectory: DEBUG 
+        cacheDirectory: DEBUG
     };
     const CREATE_FILE_CONFIG = {
         path: BUILD_DIR, fileName: 'CNAME', content: DEBUG ? '' : cnames[TIER]
@@ -98,7 +97,7 @@ module.exports = function (env) {
             filename: '[name].js?[chunkhash]',
             publicPath: '/'
         },
-        devtool: DEBUG ? 'inline-source-map' : false, 
+        devtool: DEBUG ? 'inline-source-map' : false,
         devServer: {
             contentBase: BUILD_DIR,
             stats: STATS,
@@ -112,7 +111,7 @@ module.exports = function (env) {
         },
         module: {
             rules: [
-                { 
+                {
                     test: /\.tsx?$/,
                     enforce: 'pre',
                     use: 'tslint-loader',
@@ -161,7 +160,7 @@ module.exports = function (env) {
                         DEBUG ? 'style-loader' : MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
-                            options: cssConfig(false, DEBUG) 
+                            options: cssConfig(false, DEBUG)
                         },
                         {
                             loader: 'postcss-loader',
@@ -192,7 +191,7 @@ module.exports = function (env) {
                     test: /\.(eot|ttf|svg|otf|woff2?|gif|png)(\?v=\d+\.\d+\.\d+)?$/,
                     include: /vendor/,
                     loader: 'file-loader',
-                    options: { 
+                    options: {
                         name: DEBUG ? '[name].[ext]?[hash]' : '[hash].[ext]',
                         outputPath: 'assets/'
                     },
