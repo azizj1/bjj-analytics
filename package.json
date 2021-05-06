@@ -27,7 +27,7 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "fuse.js": "^3.2.1",
-    "highcharts": "^6.1.2",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^1.4.0",
     "lodash": "^4.17.11",
     "marked": "^0.5.1",
