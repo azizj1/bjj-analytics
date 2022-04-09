@@ -31,7 +31,7 @@
     "highcharts-react-official": "^1.4.0",
     "lodash": "^4.17.11",
     "marked": "^0.5.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.21",
     "query-string": "^6.8.1",
     "react": "^16.4.2",
